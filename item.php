@@ -15,23 +15,30 @@
     $sql = "SELECT * FROM  tbproduct WHERE id = $id";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
+
         $row = mysqli_fetch_assoc($result);
-        echo "<div class='w-[50%] h-fit bg-white shadow-md rounded-md mt-10 p-4 mx-auto grid grid-cols-2'>";
+        echo "<div class='w-[50%] h-fit bg-white shadow-md rounded-md mt-10 p-6 mx-auto grid grid-cols-2'>";
         echo "<img src='" .
             $row["image_path"] .
             "' alt='" .
             $row["name"] .
-            "' class='w-full h-full object-cover'>";
+            "' class='w-full h-full object-contain p-4'>";
         echo "<div class='flex flex-col gap-2 text-start justify-start items-start'>";
         echo "<strong class='text-xl font-bold'>" .
             $row["category"] .
             "</strong>";
-        echo "<em class='pt-2 mt-6 w-full text-end border-t-2 border-main-gray'>only " .
+        echo "<em class='pt-2 mt-6 w-full text-end border-t-2 border-main-gray'>only <p id='stock'>" .
             $row["stock"] .
-            " left</em>";
+            " </p>left</em>";
         echo "<strong>" . $row["name"] . "</strong>";
         echo "<em>Rs. " . $row["price"] . "/-</em>";
-        if (isset($_SESSION["username"])) {
+        ?>
+        <div class="flex gap-2 w-full justify-center items-center text-lg font-semibold" >
+            <button id="remove" class="rounded-full bg-gray-200 aspect-square h-8" >-</button>
+            <p id="quantity">1</p>
+            <button id="add" class="rounded-full bg-gray-200 aspect-square h-8" >+</button>
+        </div>
+        <?php if (isset($_SESSION["username"])) {
             echo "<div>
                 <button data-id='" .
                 $row["id"] .
@@ -45,7 +52,8 @@
                 </button>
                 </div>";
         } else {
-            echo "<div>
+             ?>
+            <div>
             <a href='login.php'>
             <button class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-orange-900 bg-orange-500 rounded-full w-[8rem]'>
             Buy now
@@ -56,9 +64,11 @@
             Add to cart
             </button>
             </a>
-            </div>";
-        }
-        echo "</div></div>";
+            </div>
+        <?php
+        } ?>
+         </div></div>
+<?php
     } else {
         echo "<h1>Item not found</h1>";
     }
@@ -66,8 +76,10 @@
     echo "<div class=p-6 ><strong  >Checkout more..</strong>";
     echo "<hr class='border-1 my-6 border-main-gray'>";
     include "items.php";
+    include "cart.php";
     echo "</div>";
     ?>
     <script src="<?php echo BASE_URL; ?>/public/js/nav.js" ></script>
+    <script src="<?php echo BASE_URL; ?>/public/js/item.js" ></script>
 </body>
 </html>
