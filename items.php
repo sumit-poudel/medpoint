@@ -1,5 +1,5 @@
 <!-- normal data showw -->
-<div class="grid gap-6 grid-cols-1 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 ">
+<div class="grid gap-6 mt-0 mx-auto w-fit grid-cols-1 md:grid-cols-4 sm:grid-cols-3 ">
 
     <?php
     session_start();
@@ -30,6 +30,9 @@
             echo "<h1 class='font-semibold text-xl col-span-full'>$category</h1>";
             foreach ($items as $item) {
                 echo "
+                <a href='item.php?id=" .
+                    $item["id"] .
+                    "'>
 <div class='flex bg-white rounded-md flex-col w-[10rem] items-start shadow-lg'>
     <img src='" .
                     $item["image_path"] .
@@ -44,20 +47,7 @@
         <p>" .
                     $item["name"] .
                     "</p>
-    </div>";
-                if (isset($_SESSION["username"])) {
-                    echo "<button data-id='" .
-                        $item["id"] .
-                        "' class='cartButtons text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime rounded-full w-[8rem]'>
-       Add to cart
-    </a>
-</div>";
-                } else {
-                    echo "<button class='text-center m-4 p-1 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime rounded-full w-[8rem]'>
-       Add to cart
-    </button>
-</div>";
-                }
+    </div></div></a>";
             }
         }
         mysqli_close($conn);

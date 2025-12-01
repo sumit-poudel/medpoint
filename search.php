@@ -25,9 +25,6 @@ if (isset($_GET["query"])) {
                 $row["name"] .
                 "</p>
     </div>
-    <button data-id='" .
-                $row["id"] .
-                "' class='search-items m-4 text-white font-semibold hover:cursor-pointer active:bg-med-drklime bg-med-lime p-1 rounded-full w-[8rem] ' >Add to cart</button>
     </div>";
         }
         echo "</div>";
