@@ -7,6 +7,7 @@ function getCookie(name) {
 const searchBar = document.getElementById("searchBar");
 const searchButton = document.getElementById("searchButton");
 const clear = document.getElementById("clear");
+const cartNum = document.getElementById("cart");
 
 const performSearch = () => {
   if (searchBar.value !== "") {
@@ -25,15 +26,27 @@ const performSearch = () => {
 };
 
 const cart = (id, username, event) => {
-  var request = new XMLHttpRequest();
+  let request = new XMLHttpRequest();
   request.open("GET", "cart.php?user=" + username + "&id=" + id);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       clearTimeout(timeout);
       event.target.innerText = "Added!!";
+      updateCartNum(username);
       timeout = setTimeout(() => {
         event.target.innerText = "Add to cart";
       }, 500);
+    }
+  };
+  request.send();
+};
+
+const updateCartNum = (username) => {
+  let request = new XMLHttpRequest();
+  request.open("GET", "cart.php?user=" + username);
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      cartNum.innerText = this.responseText;
     }
   };
   request.send();
@@ -73,3 +86,4 @@ function addToCart(klas, add) {
 }
 
 addToCart("cartButtons", true);
+updateCartNum(getCookie("username"));
