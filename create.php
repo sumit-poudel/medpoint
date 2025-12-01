@@ -1,58 +1,58 @@
 <?php
 session_start();
-$conn = new mysqli('localhost', 'root', '', 'medpointdb');
-if (isset($_GET['username'])){
-  $username = $_GET['username'];
-  $qry = "SELECT * FROM tbuser WHERE username = '$username'";
-  $result = mysqli_query($conn, $qry);
-  if (mysqli_num_rows($result) > 0) {
-    echo "taken";
-  } else {
-    echo "available";
-  }
-  mysqli_close($conn);
-  exit();
+$conn = new mysqli("localhost", "root", "", "medpointdb");
+if (isset($_GET["username"])) {
+    $username = $_GET["username"];
+    $qry = "SELECT * FROM tbuser WHERE username = '$username'";
+    $result = mysqli_query($conn, $qry);
+    if (mysqli_num_rows($result) > 0) {
+        echo "taken";
+    } else {
+        echo "available";
+    }
+    mysqli_close($conn);
+    exit();
 }
-if (isset($_POST['submit'])) {
-  $username = $_POST['username'];
-  $fullname = $_POST['fullname'];
-  $password = $_POST['password'];
-  $phone = $_POST['phone'];
-  $confirmpassword = $_POST['confirmpassword'];
-  $conn = new mysqli("localhost", "root", "", "medpointdb");
-  $qry = "SELECT * FROM tbuser WHERE username = '$username'";
-  $result = mysqli_query($conn, $qry);
-  if (mysqli_num_rows($result) > 0) {
-    echo "<script>
+if (isset($_POST["submit"])) {
+    $username = $_POST["username"];
+    $fullname = $_POST["fullname"];
+    $password = $_POST["password"];
+    $phone = $_POST["phone"];
+    $confirmpassword = $_POST["confirmpassword"];
+    $conn = new mysqli("localhost", "root", "", "medpointdb");
+    $qry = "SELECT * FROM tbuser WHERE username = '$username'";
+    $result = mysqli_query($conn, $qry);
+    if (mysqli_num_rows($result) > 0) {
+        echo "<script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('title').innerText='Username not avaliable!';
     document.getElementById('usernameBox').classList.add('border-red-500');
   });
 </script>
 ";
-  } else {
-    $sql = "INSERT INTO tbuser (username, fullname, phone, password) VALUES ('$username', '$fullname','$phone' ,'$password')";
-    if (mysqli_query($conn, $sql)) {
-      $_SESSION['username'] = $username;
-      $_SESSION['fullname'] = $fullname;
-      setcookie('username', $username, time() + (86400 * 30), "/");
-      echo "<script>window.location.href = '/medpoint'</script>";
     } else {
-      echo "<script>
+        $sql = "INSERT INTO tbuser (username, fullname, phone, password) VALUES ('$username', '$fullname','$phone' ,'$password')";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION["username"] = $username;
+            $_SESSION["fullname"] = $fullname;
+            setcookie("username", $username, time() + 86400 * 30, "/");
+            echo "<script>window.location.href = '/medpoint'</script>";
+        } else {
+            echo "<script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('title').innerText='error';
   });
 </script>
 ";
+        }
     }
-  }
-  mysqli_close($conn);
+    mysqli_close($conn);
 }
 ?>
 
 <!-- form body -->
 
-<?php include 'header.php' ?>
+<?php include "header.php"; ?>
 <body>
   <section class=" w-screen h-screen flex flex-col justify-center items-center ">
     <div class="flex h-fit w-fit justify-center m-auto items-center shadow-lg rounded-2xl overflow-hidden ">
@@ -115,5 +115,5 @@ if (isset($_POST['submit'])) {
       </div>
     </div>
   </section>
-  <script src="./js/create.js"></script>
+  <script src="public/js/create.js"></script>
 </body>

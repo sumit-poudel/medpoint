@@ -205,5 +205,5 @@ if (isset($_GET["q"])) {
             <div id="profileContent" class="col-span-3 h-[80vh]"></div>
         </section>
     </main>
-    <script src="./js/profile.js"></script>
+    <script src="public/js/profile.js"></script>
 </body>

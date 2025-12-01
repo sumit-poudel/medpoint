@@ -86,4 +86,6 @@ function addToCart(klas, add) {
 }
 
 addToCart("cartButtons", true);
-updateCartNum(getCookie("username"));
+if (getCookie("username") !== undefined) {
+  updateCartNum(getCookie("username"));
+}
