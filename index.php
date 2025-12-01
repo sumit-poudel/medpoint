@@ -1,5 +1,7 @@
-<?php include "header.php"; ?>
+<?php
+define("BASE_URL", "http://localhost/medpoint"); ?>
 
+<?php include "header.php"; ?>
 <body>
   <?php include "navbar.php"; ?>
   <section class="bg-[url('./public/background.jpg')] bg-cover bg-center h-64 flex flex-col justify-center items-center text-white font-bold text-3xl">

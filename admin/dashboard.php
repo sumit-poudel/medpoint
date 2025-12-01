@@ -45,7 +45,7 @@ if ($_SESSION["level"] != 1) {
           </div>
         </div>
       </div>
-      <script src="../js/nav.js" ></script>
+      <script src="<?php echo BASE_URL; ?>/public/js/nav.js" ></script>
 </body>
 
 </html>

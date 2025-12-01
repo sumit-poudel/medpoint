@@ -27,6 +27,8 @@ if (isset($_GET["id"]) && isset($_GET["user"])) {
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         echo mysqli_num_rows($result);
+    } else {
+        echo 0;
     }
 } else {
     echo "Invalid request";
