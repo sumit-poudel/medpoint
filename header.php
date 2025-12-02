@@ -24,13 +24,19 @@
   --color-bdr-ash: #CECECE;
   --color-med-drklime: #304D30;
   --color-main-green: #044343;
-  --color-main-gray: #BDC3C6; 
-  --color-main-black: #263238; 
+  --color-main-gray: #BDC3C6;
+  --color-main-black: #263238;
 }
 @layer base{
   button{
    cursor: pointer;
   }
+}
+@layer components{
+   .share{
+       border: 2px solid var(--color-med-lime);
+       transition: all 0.3s ease;
+   }
 }
     </style>
 </head>

@@ -13,7 +13,9 @@ if (isset($_GET["query"])) {
         echo "<div class='grid pb-4 border-b-2 border-gray-500 mb-4 gap-6 grid-cols-1 xl:grid-cols-4 sm:grid-cols-2'>
     <h1 class='font-semibold text-xl col-span-full'>search result..</h1>";
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='flex bg-white rounded-md flex-col w-[10rem] items-start shadow-lg '>
+            echo "<a href='item.php?id=" .
+                $row["id"] .
+                "'><div class='flex bg-white rounded-md flex-col w-[10rem] items-start shadow-lg '>
     <img src=" .
                 $row["image_path"] .
                 " class='p-4 transition-all ease-in-out grayscale hover:grayscale-0 aspect-square w-full border-b-2 border-bdr-ash' alt='item'>
@@ -25,7 +27,7 @@ if (isset($_GET["query"])) {
                 $row["name"] .
                 "</p>
     </div>
-    </div>";
+    </div></a>";
         }
         echo "</div>";
     } else {

@@ -27,12 +27,17 @@
         echo "<strong class='text-xl font-bold'>" .
             $row["category"] .
             "</strong>";
-        echo "<em class='pt-2 mt-6 w-full text-end border-t-2 border-main-gray'>only <p id='stock'>" .
+        echo "<em class='pt-2 mt-6 w-full text-end border-t-2 border-main-gray'>only <p class='inline-block' data-stock='" .
             $row["stock"] .
-            " </p>left</em>";
+            "' id='stock'>" .
+            $row["stock"] .
+            "</p> left</em>";
         echo "<strong>" . $row["name"] . "</strong>";
         echo "<em>Rs. " . $row["price"] . "/-</em>";
         ?>
+        <button id="share" class="self-end border-2 border-transparent box-border bg-white shadow-md active:bg-slate-500 rounded-full p-2" onclick="shareItem()" >
+        <img class="w-6 h-6" src="public/share.svg" alt="share">
+        </button>
         <div class="flex gap-2 w-full justify-center items-center text-lg font-semibold" >
             <button id="remove" class="rounded-full bg-gray-200 aspect-square h-8" >-</button>
             <p id="quantity">1</p>
