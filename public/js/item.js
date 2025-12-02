@@ -36,9 +36,12 @@ async function shareItem() {
   }
 }
 
-const cart = (id, username, button) => {
+const cart = (id, username, button, count) => {
   let request = new XMLHttpRequest();
-  request.open("GET", "cart.php?user=" + username + "&id=" + id);
+  request.open(
+    "GET",
+    "cart.php?user=" + username + "&id=" + id + "&count=" + count,
+  );
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       clearTimeout(timeout);
@@ -68,5 +71,6 @@ function addToCart(event) {
   const button = event.target;
   const id = button.getAttribute("data-id");
   const who = getCookie("username");
-  cart(id, who, button);
+  const count = parseInt(quantity.innerText);
+  cart(id, who, button, count);
 }

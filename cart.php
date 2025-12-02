@@ -1,9 +1,10 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "medpointdb");
 
-if (isset($_GET["id"]) && isset($_GET["user"])) {
+if (isset($_GET["id"]) && isset($_GET["user"]) && isset($_GET["count"])) {
     $user = $_GET["user"];
     $id = $_GET["id"];
+    $quantity = $_GET["count"];
     $date = date("Y/m/d");
 
     $sql = "SELECT * FROM tbcart WHERE username = '$user' AND pid = $id";
@@ -11,7 +12,7 @@ if (isset($_GET["id"]) && isset($_GET["user"])) {
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $count = $row["count"] + 1;
+        $count = $row["count"] + $quantity;
 
         $sql = "UPDATE tbcart SET count = $count, buydate = '$date' WHERE username = '$user' AND pid = $id";
         mysqli_query($conn, $sql);
@@ -19,7 +20,7 @@ if (isset($_GET["id"]) && isset($_GET["user"])) {
         echo "<script>window.location.href = '/medpoint'</script>";
         exit();
     } else {
-        $sql = "INSERT INTO tbcart (username, pid, count,buydate) VALUES ('$user', $id, 1, '$date')";
+        $sql = "INSERT INTO tbcart (username, pid, count,buydate) VALUES ('$user', $id, $quantity, '$date')";
         mysqli_query($conn, $sql);
         exit();
     }
