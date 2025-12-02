@@ -9,6 +9,14 @@ define("BASE_URL", "http://localhost/medpoint"); ?>
     </a>
 
     <div class="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+        <?php
+        session_start();
+        if (isset($_SESSION["username"])) {
+            echo "<span class='mr-4'>HOWDEY, " .
+                $_SESSION["username"] .
+                "</span>";
+        }
+        ?>
       <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 ring-4 ring-gray-300" id="user-menu-button" aria-expanded="false">
         <span class="sr-only">Open user menu</span>
         <img class="w-8 h-8 rounded-full" src="<?php echo BASE_URL; ?>/public/person.svg" alt="user photo">

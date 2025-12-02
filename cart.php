@@ -25,6 +25,12 @@ if (isset($_GET["id"]) && isset($_GET["user"]) && isset($_GET["count"])) {
         exit();
     }
 } elseif (isset($_GET["user"])) {
+    session_start();
+    if (!isset($_SESSION["username"])) {
+        setcookie("username", "", time() - 86400 * 30, "/");
+        echo 0;
+        exit();
+    }
     $user = $_GET["user"];
     $sql = "SELECT * FROM tbcart WHERE username = '$user'";
     $result = mysqli_query($conn, $sql);
