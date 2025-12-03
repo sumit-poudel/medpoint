@@ -1,15 +1,10 @@
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
-
 const quantity = document.getElementById("quantity");
 const stock = document.getElementById("stock");
 const remove = document.getElementById("remove");
 const add = document.getElementById("add");
+const buy = document.getElementById("buy");
 const share = document.getElementById("share");
-const cartNum = document.getElementById("cart");
+const cartNum = document.getElementById("cartNum");
 
 remove.addEventListener("click", () => {
   let currentQuantity = parseInt(quantity.innerText);
@@ -36,18 +31,15 @@ async function shareItem() {
   }
 }
 
-const cart = (id, username, button, count) => {
+const cart = (id, button, quantity) => {
   let request = new XMLHttpRequest();
-  request.open(
-    "GET",
-    "cart.php?user=" + username + "&id=" + id + "&count=" + count,
-  );
+  request.open("GET", "cart.php?id=" + id + "&quantity=" + quantity);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       stock.innerText = this.responseText;
       clearTimeout(timeout);
       button.innerText = "Added!!";
-      updateCartNum(username);
+      updateCartIcon();
       timeout = setTimeout(() => {
         button.innerText = "Add to cart";
       }, 500);
@@ -56,22 +48,47 @@ const cart = (id, username, button, count) => {
   request.send();
 };
 
-const updateCartNum = (username) => {
+function deliverComponent(query, button) {
   let request = new XMLHttpRequest();
-  request.open("GET", "cart.php?user=" + username);
+  let url = "deliver.php" + query;
+  request.open("GET", url);
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      stock.innerText = this.responseText;
+      updateCartIcon();
+      clearTimeout(timeout);
+      button.innerText = "bought!!";
+      timeout = setTimeout(() => {
+        button.innerText = "Buy now";
+      }, 500);
+    }
+  };
+  request.send();
+}
+
+function updateCartIcon() {
+  let request = new XMLHttpRequest();
+  let url = "carticon.php?number";
+  request.open("GET", url);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       cartNum.innerText = this.responseText;
     }
   };
   request.send();
-};
-updateCartNum(getCookie("username"));
+}
+updateCartIcon();
 
 function addToCart(event) {
   const button = event.target;
   const id = button.getAttribute("data-id");
-  const who = getCookie("username");
   const count = parseInt(quantity.innerText);
-  cart(id, who, button, count);
+  cart(id, button, count);
+}
+
+function buyNow(event) {
+  const button = event.target;
+  const id = button.getAttribute("data-id");
+  const count = parseInt(quantity.innerText);
+  deliverComponent("?q=one&id=" + id + "&quantity=" + count, button);
 }

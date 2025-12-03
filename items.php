@@ -7,7 +7,7 @@
     if ($conn->connect_error) {
         die("Connection failed: ");
     }
-    $sql = "SELECT * FROM tbproduct";
+    $sql = "SELECT * FROM tbproduct WHERE stock > 0";
     $data = [];
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {

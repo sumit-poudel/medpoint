@@ -1,16 +1,8 @@
-const userMenu = document.getElementById("user-menu-button");
-const dropdownMenu = document.getElementById("user-dropdown");
-userMenu.addEventListener("click", () => {
-  dropdownMenu.classList.toggle("hidden");
-});
-dropdownMenu.addEventListener("mouseleave", () => {
-  dropdownMenu.classList.toggle("hidden");
-});
-
 const profile = document.getElementById("profile");
 const address = document.getElementById("address");
 const orders = document.getElementById("orders");
-const reviews = document.getElementById("reviews");
+const delivered = document.getElementById("delivered");
+const content = document.getElementById("profileContent");
 
 // initial load
 window.onload = ajaxComponent("profile");
@@ -25,6 +17,9 @@ address.addEventListener("click", () => {
 orders.addEventListener("click", () => {
   ajaxComponent("orders");
 });
+delivered.addEventListener("click", () => {
+  ajaxComponent("delivered");
+});
 
 // ajax component
 
@@ -34,7 +29,24 @@ function ajaxComponent(query) {
   request.open("GET", url);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("profileContent").innerHTML = this.responseText;
+      content.innerHTML = this.responseText;
+    }
+  };
+  request.send();
+}
+
+function deliverComponent() {
+  var request = new XMLHttpRequest();
+  let url = "deliver.php?q=all";
+  request.open("GET", url);
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText === "success") {
+        content.innerHTML =
+          "<div class='bg-white flex items-center justify-center p-4 shadow-md rounded-md min-h-[40vh] w-full'><strong class='my-auto text-center text-xl items-center' >Nothing in cart</strong></div></div>";
+      } else {
+        alert("Delivery failed!");
+      }
     }
   };
   request.send();

@@ -7,7 +7,7 @@ function getCookie(name) {
 const searchBar = document.getElementById("searchBar");
 const searchButton = document.getElementById("searchButton");
 const clear = document.getElementById("clear");
-const cartNum = document.getElementById("cart");
+const cartNum = document.getElementById("cartNum");
 
 const performSearch = () => {
   if (searchBar.value !== "") {
@@ -25,9 +25,10 @@ const performSearch = () => {
   }
 };
 
-const updateCartNum = (username) => {
+// updates cart icon number
+const updateCartNum = () => {
   let request = new XMLHttpRequest();
-  request.open("GET", "cart.php?user=" + username);
+  request.open("GET", "carticon.php?number");
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       cartNum.innerText = this.responseText;
@@ -35,8 +36,8 @@ const updateCartNum = (username) => {
   };
   request.send();
 };
-updateCartNum(getCookie("username"));
-
+//initial load ma sets cart ma kati ota items xa
+updateCartNum();
 // event listeners
 clear.addEventListener("click", () => {
   addToCart("search-items", false);

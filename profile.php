@@ -1,4 +1,3 @@
-<!-- php server code -->
 <?php
 session_start();
 $conn = new mysqli("localhost", "root", "", "medpointdb");
@@ -7,15 +6,30 @@ if ($conn->connect_error) {
 }
 if (isset($_GET["q"])) {
     $qry = $_GET["q"];
-    if (!isset($_SESSION["username"])) {
-        echo "<div class='w-full h-full flex justify-center items-center'>";
-        echo "<strong class='w-full text-center text-5xl items-center' >log in first</strong>";
-        echo "</div>";
-        exit();
-    }
+    if (!isset($_SESSION["username"])) { ?>
+        <div class='w-full h-full flex justify-center items-center'>";
+        <strong class='w-full text-center text-5xl items-center' >log in first</strong>";
+        </div>";
+        <?php exit();}
     $user = $_SESSION["username"];
-    $query = "SELECT * FROM tbproduct INNER JOIN tbcart WHERE tbproduct.id = tbcart.pid AND tbcart.username = '$user'";
-    $result = mysqli_query($conn, $query);
+    $querycart = "
+        SELECT *
+        FROM tbproduct
+        INNER JOIN tbcart
+            ON tbproduct.id = tbcart.pid
+        WHERE tbcart.username = '$user'
+          AND tbcart.isdelivered = 0
+    ";
+    $querydelivered = "
+            SELECT *
+            FROM tbproduct
+            INNER JOIN tbcart
+                ON tbproduct.id = tbcart.pid
+            WHERE tbcart.username = '$user'
+              AND tbcart.isdelivered = 1
+        ";
+    $resultcart = mysqli_query($conn, $querycart);
+    $resultdelivered = mysqli_query($conn, $querydelivered);
     switch ($qry) {
         case "profile":
             echo "<section class='flex flex-col w-full h-full gap-2 flex-cols' >";
@@ -28,70 +42,113 @@ if (isset($_GET["q"])) {
                 "</em></div>";
             echo "</div>";
             echo "<table class='bg-white table-auto shadow-md rounded-md w-full'>";
-            if (mysqli_num_rows($result) > 0) {
-                echo "<thead>";
-                echo "<tr class='border-b text-center' >";
-                echo "<th class='p-2' >Name</th>";
-                echo "<th class='p-2' >Image</th>";
-                echo "<th class='p-2' >Price</th>";
-                echo "<th class='p-2' >Quantity</th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr class='text-center' >";
-                    echo "<td>" . $row["name"] . "</td>";
-                    echo "<td><img class='h-20 mx-auto p-2 aspect-auto' src=" .
-                        $row["image_path"] .
-                        " /></td>";
-                    echo "<td>" . $row["count"] * $row["price"] . "</td>";
-                    echo "<td>" . $row["count"] . "</td>";
-                    echo "</tr>";
-                }
-                echo "</tbody>";
-                echo "</table>";
-                echo "</section>";
-            }
+            if (mysqli_num_rows($resultcart) > 0) { ?>
+                <thead>
+                <tr class='border-b text-center' >
+                <th class='p-2' >Name</th>
+                <th class='p-2' >Image</th>
+                <th class='p-2' >Price</th>
+                <th class='p-2' >Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($resultcart)) {
+                        echo "<tr class='text-center' >";
+                        echo "<td>" . $row["name"] . "</td>";
+                        echo "<td><img class='h-20 mx-auto p-2 aspect-auto' src=" .
+                            $row["image_path"] .
+                            " /></td>";
+                        echo "<td>" . $row["price"] . "</td>";
+                        echo "<td>" . $row["quantity"] . "</td>";
+                        echo "</tr>";
+                    }
+                    echo "</tbody>";
+                    echo "</table>";
+                    echo "</section>";
+                    }
             break;
-        case "address":
-            echo "<div class='w-full h-full flex justify-center items-center'>";
-            echo "Address Edit Section";
-            echo "</div>";
-            break;
-        case "orders":
-            if (mysqli_num_rows($result) > 0) {
-                echo "<table class='bg-white table-auto shadow-md rounded-md w-full'>";
-                echo "<thead>";
-                echo "<tr class='border-b text-center' >";
-                echo "<th class='p-2' >Date</th>";
-                echo "<th class='p-2' >Name</th>";
-                echo "<th class='p-2' >Image</th>";
-                echo "<th class='p-2' >Price</th>";
-                echo "<th class='p-2' >Quantity</th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
-                while ($row = mysqli_fetch_assoc($result)) {
+        case "address": ?>
+            <div class='w-full h-full flex justify-center items-center'>
+            Address Edit Section
+            </div>
+            <?php break;case "orders":
+            if (mysqli_num_rows($resultcart) > 0) { ?>
+                <div class='bg-white table-auto p-4 shadow-md rounded-md w-full'>
+                <table class="w-full" >
+                <thead>
+                <tr class='border-b text-center'>
+                <th class='p-2' >Date</th>
+                <th class='p-2' >Name</th>
+                <th class='p-2' >Image</th>
+                <th class='p-2' >Price</th>
+                <th class='p-2' >Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php while ($row = mysqli_fetch_assoc($resultcart)) {
                     echo "<tr class='text-center' >";
                     echo "<td>" . $row["buydate"] . "</td>";
                     echo "<td>" . $row["name"] . "</td>";
                     echo "<td><img class='h-20 mx-auto p-2 aspect-auto' src=" .
                         $row["image_path"] .
                         " /></td>";
-                    echo "<td>" . $row["count"] * $row["price"] . "</td>";
-                    echo "<td>" . $row["count"] . "</td>";
+                    echo "<td>" . $row["price"] . "</td>";
+                    echo "<td>" . $row["quantity"] . "</td>";
                     echo "</tr>";
-                }
-                echo "</tbody>";
-                echo "</table>";
-            } else {
-                echo "<div class='w-full h-full flex justify-center items-center'>";
-                echo "<strong class='w-full text-center text-5xl items-center' >No orders Yet</strong>";
-                echo "</div>";
-            }
+                } ?>
+                </tbody>
+                </table>
+                <div class="p-4 w-full">
+                    <button onclick="deliverComponent()" class="w-full p-2 text-lg font-semibold text-white bg-orange-500 active:bg-orange-900 rounded-md" >Buy Now</button>
+                </div>
+                </div>
+                <?php } else { ?>
+                    <div class='bg-white flex items-center justify-center p-4 shadow-md rounded-md min-h-[40vh] w-full'>
+                    <strong class='my-auto text-center text-xl items-center' >Nothing in cart</strong>
+                    </div></div>
+                    <?php }
+            break;
+
+        case "delivered":
+            if (mysqli_num_rows($resultdelivered) > 0) { ?>
+                           <div class='bg-white table-auto p-4 shadow-md rounded-md w-full'>
+                           <table class="w-full" >
+                           <thead>
+                           <tr class='border-b text-center'>
+                           <th class='p-2' >Date</th>
+                           <th class='p-2' >Name</th>
+                           <th class='p-2' >Image</th>
+                           <th class='p-2' >Price</th>
+                           <th class='p-2' >Quantity</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <?php while (
+                               $row = mysqli_fetch_assoc($resultdelivered)
+                           ) {
+                               echo "<tr class='text-center' >";
+                               echo "<td>" . $row["buydate"] . "</td>";
+                               echo "<td>" . $row["name"] . "</td>";
+                               echo "<td><img class='h-20 mx-auto p-2 aspect-auto' src=" .
+                                   $row["image_path"] .
+                                   " /></td>";
+                               echo "<td>" . $row["price"] . "</td>";
+                               echo "<td>" . $row["quantity"] . "</td>";
+                               echo "</tr>";
+                           } ?>
+                           </tbody>
+                           </table>
+                           </div>
+                           <?php } else { ?>
+                               <div class='bg-white flex items-center justify-center p-4 shadow-md rounded-md min-h-[40vh] w-full'>
+                               <strong class='my-auto text-center text-xl items-center' >No delivered orders</strong>
+                               </div></div>
+                               <?php }
             break;
         default:
             echo "Invalid Request";
+            break;
     }
     exit();
 }
@@ -102,6 +159,7 @@ if (isset($_GET["q"])) {
 <?php include "header.php"; ?>
 
 <body>
+    <!--nav bar-->
     <nav class=" bg-ash z-[40] shadow-md sticky top-0">
         <div class="flex w-full inherit flex-wrap items-center justify-between mx-auto p-4">
             <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -186,10 +244,20 @@ if (isset($_GET["q"])) {
                     </li>
                     <li>
                         <strong class="text-lg">
-                            <button id="orders">
                                 My orders
-                            </button>
                         </strong>
+                        <ul class="ml-4">
+                            <li>
+                                <button id="orders">
+                                Cart
+                                </button>
+                            </li>
+                            <li>
+                                <button id="delivered">
+                                Delivered
+                                </button>
+                            </li>
+                        </ul>
                     </li>
                     <?php if (isset($_SESSION["level"])) {
                         $level = $_SESSION["level"];
@@ -214,4 +282,5 @@ if (isset($_GET["q"])) {
         </section>
     </main>
     <script src="public/js/profile.js"></script>
+    <script src="public/js/nav.js"></script>
 </body>

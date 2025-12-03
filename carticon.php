@@ -1,11 +1,12 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "medpointdb");
 session_start();
-if (isset($_GET["username"])) {
-    if ($_GET["username"] != $_SESSION["username"]) {
+if (isset($_GET["number"])) {
+    if (!isset($_SESSION["username"])) {
+        echo 0;
         exit();
     }
-    $username = $_GET["username"];
+    $username = $_SESSION["username"];
     $sql = "SELECT COUNT(*) FROM tbcart WHERE username = '$username' AND isdelivered = 0";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
@@ -24,7 +25,6 @@ if (isset($_GET["username"])) {
         <img class="w-full h-full rounded-full bg-white shadow-md p-2" src="./public/cart.svg" alt="">
 
         <strong id="cartNum" class="absolute -top-2 -right-2 bg-red-500 text-white text-sm w-6 h-6 flex items-center justify-center rounded-full">
-            0
         </strong>
         </a>
     </div>
