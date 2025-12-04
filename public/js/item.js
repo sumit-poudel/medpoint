@@ -5,6 +5,19 @@ const add = document.getElementById("add");
 const buy = document.getElementById("buy");
 const share = document.getElementById("share");
 const cartNum = document.getElementById("cartNum");
+const category = document.getElementById("category");
+const related = document.getElementById("related");
+
+document.addEventListener("DOMContentLoaded", () => {
+  let request = new XMLHttpRequest();
+  request.open("GET", "search.php?related=" + category.innerText);
+  request.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      related.innerHTML = this.responseText;
+    }
+  };
+  request.send();
+});
 
 remove.addEventListener("click", () => {
   let currentQuantity = parseInt(domQuantity.innerText);

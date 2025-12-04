@@ -10,6 +10,7 @@ if (!isset($_GET["id"])) {
 $id = $_GET["id"];
 $conn = mysqli_connect("localhost", "root", "", "medpointdb");
 if (!$conn) {
+    http_response_code(500);
     die("Connection failed: " . mysqli_connect_error());
 }
 $sql = "SELECT * FROM  tbproduct WHERE id = $id";
@@ -45,7 +46,7 @@ if (mysqli_num_rows($result) > 0) {
                            ' id='stock'>
                                <?php echo $row["stock"]; ?></p> left in stock
                     </span>
-                    <div class='text-[#00796b] text-sm font-semibold uppercase mb-2'>
+                    <div id="category" class='text-[#00796b] text-sm font-semibold uppercase mb-2'>
                         <?php echo $row["category"]; ?>
                     </div>
                     <div class='text-4xl font-bold mb-3 text-[#333]'>
@@ -112,12 +113,9 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 ?>
     <section class="w-full" >
-        <div class="max-w-[1200px] mx-auto px-5" >
-            <h2 class='font-extrabold text-[#333] mt-6 text-2xl'>
-                Checkout More...
-            </h2>
+        <div class="max-w-[1200px] mx-auto mb-2 px-5" >
             <hr class="border-1 my-3 border-1 border-[#eee]">
-            <?php include "items.php"; ?>
+            <div id="related" ></div>
         </div>
     </section>
     <?php include "carticon.php"; ?>
