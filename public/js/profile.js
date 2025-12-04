@@ -3,6 +3,8 @@ const address = document.getElementById("address");
 const orders = document.getElementById("orders");
 const delivered = document.getElementById("delivered");
 const content = document.getElementById("profileContent");
+const emptyElement =
+  "<div class='bg-white flex items-center justify-center p-4 shadow-md rounded-md min-h-[40vh] w-full'><strong class='my-auto text-center text-xl items-center' >Nothing in cart</strong></div></div>";
 
 // initial load
 window.onload = ajaxComponent("profile");
@@ -36,17 +38,28 @@ function ajaxComponent(query) {
 }
 
 function deliverComponent() {
-  var request = new XMLHttpRequest();
+  let request = new XMLHttpRequest();
   let url = "deliver.php?q=all";
   request.open("GET", url);
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText === "success") {
-        content.innerHTML =
-          "<div class='bg-white flex items-center justify-center p-4 shadow-md rounded-md min-h-[40vh] w-full'><strong class='my-auto text-center text-xl items-center' >Nothing in cart</strong></div></div>";
+        content.innerHTML = emptyElement;
       } else {
         alert("Delivery failed!");
       }
+    }
+  };
+  request.send();
+}
+
+function removeFromCart(event, orderid) {
+  let request = new XMLHttpRequest();
+  let url = "cart.php?orderid=" + orderid;
+  request.open("GET", url);
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      ajaxComponent("orders");
     }
   };
   request.send();

@@ -43,6 +43,32 @@ if (isset($_SESSION["username"])) {
             }
         }
     }
+    // 2. Remove from cart
+    if (isset($_GET["orderid"])) {
+        $id = $_GET["orderid"];
+
+        $sqlgetorder = "SELECT quantity,pid FROM tbcart WHERE orderid = $id";
+        $resultgetorder = mysqli_query($conn, $sqlgetorder);
+        $rowgetorder = mysqli_fetch_assoc($resultgetorder);
+        $productid = $rowgetorder["pid"];
+        $quantity = $rowgetorder["quantity"];
+
+        $sqlupdatestock = "UPDATE tbproduct SET stock = stock + $quantity WHERE id = $productid";
+
+        $sqlremove = "DELETE FROM tbcart WHERE orderid=$id";
+        if (mysqli_query($conn, $sqlremove)) {
+            if (mysqli_query($conn, $sqlupdatestock)) {
+                echo "Product removed from cart.";
+            } else {
+                http_response_code(500);
+                echo "Failed to update product in stock.";
+            }
+        } else {
+            http_response_code(500);
+            echo "Failed to remove product from cart.";
+        }
+        exit();
+    }
 
     exit();
 } else {
