@@ -39,7 +39,7 @@
   <main class=" m-4 h-fit flex flex-col items-center">
     <section class="w-full" >
         <div class="max-w-[1200px] mx-auto flex flex-col gap-7 px-5" >
-            <div id="searchResult"></div>
+            <div id="searchResult" class="" ></div>
             <?php include "items.php"; ?>
         </div>
     </section>

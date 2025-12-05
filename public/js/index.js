@@ -10,6 +10,7 @@ const performSearch = () => {
     request.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         document.getElementById("searchResult").innerHTML = this.responseText;
+        document.getElementById("meds").scrollIntoView({ behavior: "smooth" });
       }
     };
     request.send();

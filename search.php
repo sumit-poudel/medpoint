@@ -1,5 +1,5 @@
+<div class="animate-fadeIn" >
 <?php
-
 $conn = new mysqli("localhost", "root", "", "medpointdb");
 if ($conn->connect_error) {
     die("Connection failed: ");
@@ -13,7 +13,7 @@ if (isset($_GET["query"])) {
     <h3 class='font-extrabold text-[#333] text-3xl col-span-full'>
         Search Results...
     </h3>
-    <div class="grid gap-6 mt-7 mx-auto w-full grid-cols-1 md:grid-cols-4 sm:grid-cols-3 ">
+    <div class="grid gap-6 mt-7  mx-auto w-full grid-cols-1 md:grid-cols-4 sm:grid-cols-3 ">
     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
         <a href="item.php?id=<?php echo $row["id"]; ?>">
             <div class='flex bg-white rounded-xl transition-all hover:-translate-y-1 flex-col items-start shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]'>
@@ -42,7 +42,7 @@ if (isset($_GET["query"])) {
 }
 if (isset($_GET["related"])) {
     $relatedQuery = $_GET["related"];
-    $sql = "SELECT * FROM tbproduct WHERE category = '$relatedQuery'";
+    $sql = "SELECT * FROM tbproduct WHERE category LIKE '%$relatedQuery%'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) { ?>
@@ -72,7 +72,9 @@ if (isset($_GET["related"])) {
     </div>
         <?php } else { ?>
             <h3 class='font-extrabold text-[#333] text-3xl col-span-full'>
-                No Results...
+                No Results
             </h3>
             <?php }
-} ?>
+}
+?>
+</div>

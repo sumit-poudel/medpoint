@@ -32,6 +32,16 @@
    cursor: pointer;
   }
 }
+@layer utilities {
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+}
 @layer components{
    .share{
        border: 2px solid var(--color-med-lime);
