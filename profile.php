@@ -21,92 +21,95 @@ if (isset($_GET["q"])) {
         <?php exit();}
     $user_id = $_SESSION["user_id"];
     $querycart = "SELECT name,description,image_url,unit_price,number,cart_id,unit_price FROM cart JOIN inventory ON inventory.inventory_id = cart.inventory_id JOIN products ON products.product_id = inventory.product_id WHERE user_id = '$user_id'";
-    $querydelivered = "SELECT o.order_id, o.order_date, p.name AS product_name, i.image_url, oi.quantity, i.unit_price, (oi.quantity * i.unit_price) AS total_price, i.seller_id FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN inventory i ON oi.product_id = i.product_id AND oi.seller_id = i.seller_id JOIN products p ON i.product_id = p.product_id WHERE o.buyer_id = '$user_id' ORDER BY o.order_date DESC, o.order_id DESC";
+    $querydelivered = "SELECT o.order_id, o.order_date, p.name AS product_name, i.image_url, oi.quantity, i.unit_price, (oi.quantity * i.unit_price) AS total_price, s.shop_name FROM orders o JOIN order_items oi ON o.order_id = oi.order_id JOIN inventory i ON oi.product_id = i.product_id AND oi.seller_id = i.seller_id JOIN products p ON i.product_id = p.product_id JOIN seller s on i.seller_id = s.seller_id WHERE o.buyer_id = '$user_id' ORDER BY o.order_date DESC, o.order_id DESC";
     $resultcart = mysqli_query($conn, $querycart);
     $resultdelivered = mysqli_query($conn, $querydelivered);
-    switch ($qry) { case "profile": ?>
-        <div class="content-body">
-            <form class="profile-form">
-                <div class="form-section">
-                    <h3 class="form-section-title">Personal Information</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-input" value="bimal" disabled>
+    switch ($qry) {
+        case "profile":
+
+            $query = "SELECT * from users WHERE user_id = $user_id";
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_assoc($result);
+            ?>
+        <div class='bg-white shadow-md rounded-2xl w-full'>
+            <form action="" method="post">
+            <div class="p-7 border-b border-[#eee] flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-[#333]">Edit Profile</h1>
+                <div>
+                    <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="window.location.href='profile.php'">cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
+                </div>
+            </div>
+            <div class="p-8">
+            <div class="max-w-[800px]">
+                <div class="mb-10">
+                    <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Personal Information</h3>
+                    <div class="grid grid-cols-2 gap-5 mb-5">
+                        <div class="flex flex-col">
+                            <label for="username" class="font-base font-semibold mb-2 text-[#555]">Username</label>
+                            <input name="username" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] disabled:bg-[#f5f5f5] cursor-not-allowed py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                                "username"
+                            ]; ?>" disabled>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" class="form-input" value="bimal@example.com">
+                        <div class="flex flex-col">
+                            <label for="full_name" class="font-base font-semibold mb-2 text-[#555]">Full Name</label>
+                            <input name="full_name" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                                "full_name"
+                            ]; ?>">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-input" value="Bimal Rana Magar">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" class="form-input" value="+977-9800000000">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Date of Birth</label>
-                            <input type="date" class="form-input" value="1995-05-15">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Gender</label>
-                            <select class="form-input">
+                    <div class="grid grid-cols-2 gap-5 mb-5">
+                        <div class="flex flex-col">
+                            <label for="gender" class="font-base font-semibold mb-2 text-[#555]">Gender</label>
+                            <select name="gender" id="gender" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
                                 <option>Prefer not to say</option>
                             </select>
                         </div>
+                        <div class="flex flex-col">
+                            <label for="phone_number" class="font-base font-semibold mb-2 text-[#555]">Phone Number</label>
+                            <input name="phone_number" type="tel" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                                "phone_number"
+                            ]; ?>">
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-section">
-                    <h3 class="form-section-title">Address Information</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Street Address</label>
-                            <input type="text" class="form-input" value="Thamel, Kathmandu">
+                <div class="mb-10">
+                    <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Address Information</h3>
+                    <div class="grid grid-cols-2 gap-5 mb-5">
+                        <div class="flex flex-col">
+                            <label for="street_address" class="font-base font-semibold mb-2 text-[#555]">Street Address</label>
+                            <input name="street_address" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="basanta chowk, chitwan">
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">City</label>
-                            <input type="text" class="form-input" value="Kathmandu">
+                    <div class="grid grid-cols-2 gap-5 mb-5">
+                        <div class="flex flex-col">
+                            <label for="city" class="font-base font-semibold mb-2 text-[#555]">City</label>
+                            <input name="city" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="chitwan">
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Province</label>
-                            <select class="form-input">
-                                <option>Bagmati</option>
-                                <option>Gandaki</option>
-                                <option>Lumbini</option>
-                                <option>Koshi</option>
-                                <option>Madhesh</option>
-                                <option>Karnali</option>
-                                <option>Sudurpashchim</option>
+                        <div class="flex flex-col">
+                            <label for="province" class="font-base font-semibold mb-2 text-[#555]">Province</label>
+                            <select name="province" id="province" class="outline-none focus:border-[#00bfa5] hover:bg-white disabled:text-[#999] py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
+                                <option value="bagmati">Bagmati</option>
+                                <option value="gandaki">Gandaki</option>
+                                <option value="lumbini">Lumbini</option>
+                                <option value="koshi">Koshi</option>
+                                <option value="madhesh">Madhesh</option>
+                                <option value="karnali">Karnali</option>
+                                <option value="sudurpashchim">Sudurpashchim</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Postal Code</label>
-                            <input type="text" class="form-input" value="44600">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Country</label>
-                            <input type="text" class="form-input" value="Nepal" disabled>
-                        </div>
-                    </div>
                 </div>
-            </form>
+            </div>
         </div>
+            </form>
     </div>
-            <?php break;case "address": ?>
+            <?php break;
+        case "address": ?>
             <div class='w-full h-full flex justify-center items-center'>
                 become a seller
             </div>
@@ -249,8 +252,11 @@ if (isset($_GET["q"])) {
                                               <div class="text-sm font-semibold text-[#666]">quantity: <?php echo $order[
                                                   "quantity"
                                               ]; ?></div>
+                                              <div class="text-sm font-semibold text-[#666]">seller: <?php echo $order[
+                                                  "shop_name"
+                                              ]; ?></div>
                                           </div>
-                                          <div class="flex flex-col items-end gap-3">
+                                          <div class="flex flex-row items-center gap-3">
                                               <div class="text-3xl font-bold text-[#00796b]">Rs. <?php echo $order[
                                                   "unit_price"
                                               ]; ?></div>
@@ -258,9 +264,10 @@ if (isset($_GET["q"])) {
                                                   hover:bg-red-500 hover:text-white hover:font-semibold hover:-translate-y-1">
                                                       total: Rs. <?php
                                                       $total +=
-                                                          $order["unit_price"] *
-                                                          $order["quantity"];
-                                                      echo $total;
+                                                          $order["total_price"];
+                                                      echo $order[
+                                                          "total_price"
+                                                      ];
                                                       ?>
                                                   </div>
                                           </div>
