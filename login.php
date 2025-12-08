@@ -12,11 +12,12 @@ $errorMessage = "";
 if (isset($_POST["login"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $encryptpass = md5($password);
 
     //  Check if user exists
     $sql = "SELECT user_id, username, full_name
             FROM users
-            WHERE username='$username' AND password='$password'";
+            WHERE username='$username' AND password='$encryptpass'";
 
     $result = mysqli_query($conn, $sql);
 

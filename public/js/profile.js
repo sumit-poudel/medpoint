@@ -55,3 +55,20 @@ function removeFromCart(cartid) {
 function rerender(type) {
   ajaxComponent(type);
 }
+
+// update userprofile
+let namePattern = /^([A-Za-z])+(?=.*\s)[A-Za-z\s]+$/;
+function updateFullName() {
+  let fullName = document.getElementById("full_name").value;
+  if (!namePattern.test(fullName)) {
+    document.getElementById("full_name").classList.add("border-red-500");
+    document.getElementById("full_name").classList.add("focus:border-red-500");
+    document.getElementById("submit").disabled = true;
+  } else {
+    document.getElementById("full_name").classList.remove("border-red-500");
+    document
+      .getElementById("full_name")
+      .classList.remove("focus:border-red-500");
+    document.getElementById("submit").disabled = false;
+  }
+}

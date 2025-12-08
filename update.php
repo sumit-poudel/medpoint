@@ -43,7 +43,7 @@ if ($_GET["type"] == "profile") {
         }
 
         $safeName = preg_replace("/[^A-Za-z0-9_-]/", "", $shopname);
-        $filename = $safeName . "_document." . $imageFileType;
+        $filename = $safeName . "_regDoc." . $imageFileType;
         $target_file = $target_dir . $filename;
 
         // Check if $uploadOk is set to 0 by an error

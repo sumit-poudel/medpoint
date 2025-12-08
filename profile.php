@@ -37,7 +37,7 @@ if (isset($_GET["q"])) {
                 <h1 class="text-2xl font-bold text-[#333]">Edit Profile</h1>
                 <div>
                     <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="rerender('profile')">cancel</button>
-                    <button type="submit" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
+                    <button type="submit" id="submit" class="px-5 py-2 rounded-lg disabled:cursor-not-allowed text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
                 </div>
             </div>
             <div class="p-8">
@@ -53,7 +53,7 @@ if (isset($_GET["q"])) {
                         </div>
                         <div class="flex flex-col">
                             <label for="full_name" class="font-base font-semibold mb-2 text-[#555]">Full Name</label>
-                            <input name="full_name" id="full_name" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                            <input name="full_name" id="full_name" oninput="updateFullName()" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
                                 "full_name"
                             ]; ?>">
                         </div>

@@ -30,7 +30,8 @@ if (isset($_POST["submit"])) {
 </script>
 ";
     } else {
-        $sql = "INSERT INTO users (username, full_name, phone_number, password) VALUES ('$username', '$fullname','$phone' ,'$password')";
+        $passencrypted = md5($password);
+        $sql = "INSERT INTO users (username, full_name, phone_number, password) VALUES ('$username', '$fullname','$phone' ,'$passencrypted')";
         if (mysqli_query($conn, $sql)) {
             $_SESSION["username"] = $username;
             $_SESSION["fullname"] = $fullname;
