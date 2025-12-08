@@ -36,6 +36,11 @@
            <p>Excellent customer service</p>
        </div>
    </div>
+   <div id="item" class="fixed inset-0 justify-center items-center bg-black/40 hidden z-50">
+       <div id="item-content" class="max-w-[1200px] max-h-0 transition-all duration-700 ease-in-out overflow-hidden">
+           <!-- AJAX content -->
+       </div>
+   </div>
   <main class=" m-4 h-fit flex flex-col items-center">
     <section class="w-full" >
         <div class="max-w-[1200px] mx-auto flex flex-col gap-7 px-5" >

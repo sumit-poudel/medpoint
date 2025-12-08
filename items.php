@@ -32,10 +32,7 @@
                 <?php echo $category; ?>
             </h3>
                 <?php foreach ($items as $item) { ?>
-            <a href="item.php?sid=<?php echo $item[
-                "seller_id"
-            ]; ?>&pid=<?php echo $item["product_id"]; ?>">
-                <div class='flex bg-white rounded-xl transition-all hover:-translate-y-1 flex-col items-start shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]'>
+                <div class='flex bg-white rounded-xl transition-all ease-in-out duration-500 hover:-translate-y-1 flex-col items-start shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]'>
                     <div class='h-[200px] relative w-full bg-[#f5f5f5] flex justify-center items-center'>
                         <?php if ($item["stock"] > 0) { ?>
                         <div class="absolute right-2 top-2 bg-[#4CAF50] text-white text-xs font-semibold px-2 py-1 rounded-full">In Stock</div>
@@ -50,12 +47,17 @@
                         <p class="text-[#333] overflow-hidden font-semibold"><?php echo $item[
                             "name"
                         ]; ?></p>
+                        <div class="flex border-t border-[#eee] pt-2 items-center justify-between">
                         <p class="text-[#00796b] text-2xl font-extrabold">Rs. <?php echo $item[
                             "unit_price"
                         ]; ?></p>
+                        <button class="bg-[#00bFA5] text-white transition-all font-semibold hover:bg-[#00897b] hover:scale-105 px-4 rounded-md py-2" onclick="item(<?php echo $item[
+                            "seller_id"
+                        ]; ?>, <?php echo $item["product_id"]; ?>)"
+                        >🛒 Add</button>
+                        </div>
                     </div>
                 </div>
-            </a>
                 <?php }}
         mysqli_close($conn);
     } else {
