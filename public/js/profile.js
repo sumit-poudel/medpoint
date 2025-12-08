@@ -52,6 +52,6 @@ function removeFromCart(cartid) {
   request.send();
 }
 
-function rerender() {
-  ajaxComponent("profile");
+function rerender(type) {
+  ajaxComponent(type);
 }

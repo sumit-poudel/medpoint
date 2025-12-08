@@ -36,7 +36,7 @@ if (isset($_GET["q"])) {
             <div class="p-7 border-b border-[#eee] flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-[#333]">Edit Profile</h1>
                 <div>
-                    <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="rerender()">cancel</button>
+                    <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="rerender('profile')">cancel</button>
                     <button type="submit" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
                 </div>
             </div>
@@ -163,8 +163,39 @@ if (isset($_GET["q"])) {
     </div>
             <?php break;
         case "seller": ?>
-            <div class='w-full h-full flex justify-center items-center'>
-                become a seller
+            <div class='bg-white shadow-md rounded-2xl w-full'>
+                <form action="update.php?type=seller" method="post" enctype="multipart/form-data">
+                <div class="p-7 border-b border-[#eee] flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-[#333]">Become a seller</h1>
+                    <div>
+                        <button type="button" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="rerender('seller')">cancel</button>
+                        <button name="submit" id="submit" type="submit" class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#00bfa5] hover:bg-[#00807b] text-white hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,191,165,0.3)] ">💾 Save Changes</button>
+                    </div>
+                </div>
+                <div class="p-8">
+                <div class="max-w-[800px]">
+                    <div class="mb-10">
+                        <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Shop Information</h3>
+                        <div class="grid grid-cols-2 gap-5 mb-5">
+                            <div class="flex flex-col">
+                                <label for="shopname" class="font-base font-semibold mb-2 text-[#555]">Shop name</label>
+                                <input name="shopname" required id="shopname" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" />
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="regid" class="font-base font-semibold mb-2 text-[#555]">Shop registration number</label>
+                                <input name="regid" required id="regid" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-10">
+                        <h3 class="text-lg font-semibold text-[#333] mb-5 pb-2 border-b-2 border-[#f0f0f0]">Documents</h3>
+                            <div class="flex flex-col">
+                                <label for="docs" class="font-base font-semibold mb-2 text-[#555]">Shop registration (*.jpg, *.png)</label>
+                                <input name="docs" required id="docs" type="file" accept=".jpg, .png" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" />
+                            </div>
+                    </div>
+                </form>
             </div>
             <?php break;case "orders":
             if (mysqli_num_rows($resultcart) > 0) { ?>
