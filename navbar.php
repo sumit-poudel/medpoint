@@ -16,11 +16,12 @@
     <div class="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <?php
         session_start();
-        if (isset($_SESSION["username"])) {
-            echo "<span class='mr-4'>HOWDEY, " .
-                $_SESSION["username"] .
-                "</span>";
-        }
+        if (isset($_SESSION["username"])) { ?>
+            <p class='mr-4'>HOWDEY,<span class="font-semibold" >
+               <?php echo $_SESSION["username"]; ?>
+               </span>
+                </p>
+        <?php }
         ?>
       <button type="button" class="text-white bg-[#00bfa5] rounded-full p-1 hover:bg-white hover:text-[#00bfa5]" id="user-menu-button" aria-expanded="false">
           <svg class="h-8 w-8 stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -51,7 +52,7 @@
         <ul class="py-2" aria-labelledby="user-menu-button">
             <?php if (isset($_SESSION["username"])) {
                 echo "<li>
-                <a href='profile.php' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>cart</a>
+                <a href='profile.php' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>profile</a>
           </li>";
                 echo "<li>
                 <a href='/medpoint/logout.php' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>

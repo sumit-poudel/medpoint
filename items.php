@@ -36,7 +36,12 @@
                 "seller_id"
             ]; ?>&pid=<?php echo $item["product_id"]; ?>">
                 <div class='flex bg-white rounded-xl transition-all hover:-translate-y-1 flex-col items-start shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)]'>
-                    <div class='h-[200px] w-full bg-[#f5f5f5] flex justify-center items-center'>
+                    <div class='h-[200px] relative w-full bg-[#f5f5f5] flex justify-center items-center'>
+                        <?php if ($item["stock"] > 0) { ?>
+                        <div class="absolute right-2 top-2 bg-[#4CAF50] text-white text-xs font-semibold px-2 py-1 rounded-full">In Stock</div>
+                        <?php } else { ?>
+                        <div class="absolute right-2 top-2 bg-[#FF5722] text-white text-xs font-semibold px-2 py-1 rounded-full">Out of Stock</div>
+                        <?php } ?>
                         <img class="h-28 w-28" src="<?php echo $item[
                             "image_url"
                         ]; ?>" alt='item'>

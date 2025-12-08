@@ -17,7 +17,7 @@ const submit = document.getElementById("submit");
 let timeout;
 // regex patterns
 let userPattern = /^([A-Z]|[a-z])[A-Za-z0-9_]{1,10}$/;
-let namePattern = /^(?=.*\s)[A-Za-z\s]+$/;
+const namePattern = /^[a-zA-Z]+[\s]+[a-zA-Z]+$/; // example pattern
 let phPattern = /^(97|98)\d{8}$/;
 let passwordPattern =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

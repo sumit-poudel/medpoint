@@ -57,18 +57,46 @@ function rerender(type) {
 }
 
 // update userprofile
-let namePattern = /^([A-Za-z])+(?=.*\s)[A-Za-z\s]+$/;
-function updateFullName() {
-  let fullName = document.getElementById("full_name").value;
-  if (!namePattern.test(fullName)) {
-    document.getElementById("full_name").classList.add("border-red-500");
-    document.getElementById("full_name").classList.add("focus:border-red-500");
-    document.getElementById("submit").disabled = true;
-  } else {
-    document.getElementById("full_name").classList.remove("border-red-500");
-    document
-      .getElementById("full_name")
-      .classList.remove("focus:border-red-500");
-    document.getElementById("submit").disabled = false;
+const namePattern = /^[a-zA-Z]+[\s]+[a-zA-Z]+$/;
+const phPattern = /^\d{10}$/;
+const addressPattern = /^[a-zA-Z0-9\s,.'-]{5,}$/;
+const registerNumPattern = /^[0-9]{5,}$/;
+const shopNamePattern = /^[a-zA-Z0-9\s]{5,}$/;
+
+function update(event) {
+  const element = event.target;
+  // remove any previous input listener
+  element.removeEventListener("input", element._inputListener);
+  let pattern;
+  switch (element.id) {
+    case "full_name":
+      pattern = namePattern;
+      break;
+    case "phone_number":
+      pattern = phPattern;
+      break;
+    case "shopname":
+      pattern = shopNamePattern;
+      break;
+    case "regid":
+      pattern = registerNumPattern;
+      break;
+    default:
+      pattern = addressPattern;
+      break;
   }
+  // create a new listener function
+  element.inputListener = function () {
+    if (!pattern.test(element.value)) {
+      element.classList.add("focus:border-red-500");
+      element.classList.add("border-red-500");
+      document.getElementById("submit").disabled = true;
+    } else {
+      element.classList.remove("focus:border-red-500");
+      element.classList.remove("border-red-500");
+      document.getElementById("submit").disabled = false;
+    }
+  };
+  // attach the new listener
+  element.addEventListener("input", element.inputListener);
 }
