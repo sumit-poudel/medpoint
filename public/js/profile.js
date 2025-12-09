@@ -59,9 +59,9 @@ function rerender(type) {
 // update userprofile
 const namePattern = /^[a-zA-Z]+[\s]+[a-zA-Z]+$/;
 const phPattern = /^\d{10}$/;
-const addressPattern = /^[a-zA-Z0-9\s,.'-]{5,}$/;
+const addressPattern = /^[a-zA-Z]+[a-zA-Z0-9\s,.'-]{5,}$/;
 const registerNumPattern = /^[0-9]{5,}$/;
-const shopNamePattern = /^[a-zA-Z0-9\s]{5,}$/;
+const shopNamePattern = /^[a-zA-Z]+[a-zA-Z0-9\s]{3,}$/;
 
 function update(event) {
   const element = event.target;
@@ -88,12 +88,10 @@ function update(event) {
   // create a new listener function
   element.inputListener = function () {
     if (!pattern.test(element.value)) {
-      element.classList.add("focus:border-red-500");
-      element.classList.add("border-red-500");
+      element.classList.add("focus:border-red-500", "border-red-500");
       document.getElementById("submit").disabled = true;
     } else {
-      element.classList.remove("focus:border-red-500");
-      element.classList.remove("border-red-500");
+      element.classList.remove("focus:border-red-500", "border-red-500");
       document.getElementById("submit").disabled = false;
     }
   };

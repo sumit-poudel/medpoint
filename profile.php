@@ -9,12 +9,12 @@ if (isset($_GET["q"])) {
     if (!isset($_SESSION["username"])) { ?>
         <div class='bg-white shadow-md rounded-2xl w-full'>
                                <div class="p-7 border-b border-[#eee] flex justify-between items-center">
-                                   <h1 class="text-2xl font-bold text-[#333]">Shopping Cart</h1>
+                                   <h1 class="text-2xl font-bold text-[#333]">Welcome to medPoint</h1>
                                    <button class="px-5 py-2 rounded-lg text-sm font-semibold cursor-pointer transition-all bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#555]" onclick="window.location.href='index.php'">🏠 Continue Shopping</button>
                                </div>
                                <div class="p-8">
                                    <div class="text-center p-y[80px] px-5" >
-                                       <p class="text-3xl text-[#333] font-semibold" >No orders Yet</p>
+                                       <p class="text-3xl text-[#333] font-semibold" >Please log in to view your orders.</p>
                                    </div>
                                </div>
                            </div>

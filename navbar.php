@@ -7,7 +7,7 @@
 
     <div class="flex max-w-[600px] border-2 overflow-hidden rounded-md  border-[#00bfa5]">
     <input id="searchBar" type="text" placeholder="Search for medicine..." value="" class=" focus:outline-0 px-2 py-1 h-10 text-txt-ash">
-    <button id="clear" class="px-2 text-[#00bfa5] active:text-[#00796b] font-semibold hover:scale-105 transition-all ">clear</button>
+    <button id="clear" class="px-2  text-[#00bfa5] active:text-[#00796b] font-semibold opacity-0 pointer-events-none duration-300 hover:scale-105 transition-all ">clear</button>
     <button id="searchButton" type="search" class=" hover:cursor-pointer px-2 py-1 text-white transition-all font-semibold hover:scale-105 hover:translate-x-[2px] active:bg-[#00897b] bg-[#00bfa5]">
       <img class="h-4 w-4 inline-block" src="./public/search.svg" alt="search"> Search
     </button>

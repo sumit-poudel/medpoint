@@ -115,12 +115,12 @@ if (isset($_GET["sid"]) && isset($_GET["pid"])) {
                         </div>
                     <?php } else { ?>
                         <div class="flex items-center gap-4 my-2" >
-                            <a class="w-full" href='login.php'>
+                            <a class="w-full" href='login.php?type=user'>
                                 <button class='text-white rounded-lg font-semibold hover:cursor-pointer p-3 hover:shadow-lg shadow-md w-full hover:-translate-y-1 transition-all  active:bg-orange-900 bg-orange-500'>
                                     Buy now
                                 </button>
                             </a>
-                            <a class="w-full" href='login.php'>
+                            <a class="w-full" href='login.php?type=user'>
                                 <button class='text-white rounded-lg font-semibold hover:cursor-pointer p-3 hover:shadow-lg shadow-md w-full active:bg-[#00897b] hover:-translate-y-1 transition-all bg-[#00bfa5]'>
                                     Add to cart
                                 </button>

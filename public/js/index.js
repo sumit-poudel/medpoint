@@ -10,6 +10,16 @@ const itemElement = {
   productId: 0,
 };
 
+searchBar.addEventListener("input", () => {
+  if (searchBar.value.trim() !== "") {
+    clear.classList.remove("opacity-0", "pointer-events-none"); // fade in
+    clear.classList.add("opacity-100");
+  } else {
+    clear.classList.remove("opacity-100"); // fade out
+    clear.classList.add("opacity-0", "pointer-events-none");
+  }
+});
+
 const performSearch = () => {
   if (searchBar.value !== "") {
     let request = new XMLHttpRequest();
@@ -63,6 +73,9 @@ updateCartNum();
 // event listeners
 clear.addEventListener("click", () => {
   searchBar.value = "";
+  clear.classList.add("opacity-0", "pointer-events-none");
+  clear.classList.remove("opacity-100");
+  search.focus();
   document.getElementById("searchResult").innerHTML = "";
 });
 searchButton.addEventListener("click", performSearch);
