@@ -12,8 +12,8 @@ const emptyElement = `<div class='bg-white shadow-md rounded-2xl w-full'>
     </div>`;
 
 // initial load
-window.onload = ajaxComponent("profile");
-
+const urlParams = new URLSearchParams(window.location.search);
+ajaxComponent(urlParams.get("query"));
 // ajax component
 
 function ajaxComponent(query) {

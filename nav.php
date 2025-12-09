@@ -49,7 +49,7 @@ define("BASE_URL", "http://localhost/medpoint"); ?>
                 echo "<li>
                 <a href='" .
                     BASE_URL .
-                    "/profile.php' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>profile</a>
+                    "/profile.php?query=profile' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>profile</a>
           </li>";
                 echo "<li>
                 <a href='/medpoint/logout.php' class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'>
