@@ -1,6 +1,5 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "medpoint");
-session_start();
 if (isset($_GET["number"])) {
     if (!isset($_SESSION["user_id"])) {
         echo 0;
