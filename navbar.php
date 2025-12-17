@@ -15,7 +15,6 @@
 
     <div class="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <?php
-        session_start();
         if (isset($_SESSION["username"])) { ?>
             <p class='mr-4'>HOWDEY,<span class="font-semibold" >
                <?php echo $_SESSION["username"]; ?>
@@ -33,7 +32,6 @@
         <div class="px-4 py-3">
           <span class="block text-sm text-gray-900 dark:text-white">
             <?php
-            session_start();
             if (isset($_SESSION["username"])) {
                 echo $_SESSION["username"];
             } else {

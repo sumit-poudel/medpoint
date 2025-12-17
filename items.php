@@ -2,7 +2,6 @@
 <div class="grid gap-6 mt-0 mx-auto w-full grid-cols-1 md:grid-cols-4 sm:grid-cols-3 ">
 
     <?php
-    session_start();
     $conn = new mysqli("localhost", "root", "", "medpoint");
     if ($conn->connect_error) {
         die("Connection failed: ");
