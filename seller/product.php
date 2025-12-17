@@ -19,17 +19,14 @@
                 $productName = $_POST["medicineName"];
                 $sqladdCategory = "INSERT INTO categories (category) VALUES ('$category')";
                 if (mysqli_query($conn, $sqladdCategory)) {
-                    if (mysqli_query($conn, $sqladdStock)) {
-                        header("location: dashboard.php");
-                    }
-                }
-                $categoryid = mysqli_insert_id($conn);
-                $sqladdProduct = "INSERT INTO products (name, category_id) VALUES ('$productName', $categoryid)";
-                if (mysqli_query($conn, $sqladdProduct)) {
-                    $productid = mysqli_insert_id($conn);
-                    $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price) VALUES ($stock, $productid, '$description', $seller_id, $price)";
-                    if (mysqli_query($conn, $sqladdStock)) {
-                        header("location: dashboard.php");
+                    $categoryid = mysqli_insert_id($conn);
+                    $sqladdProduct = "INSERT INTO products (name, category_id) VALUES ('$productName', '$categoryid')";
+                    if (mysqli_query($conn, $sqladdProduct)) {
+                        $productid = mysqli_insert_id($conn);
+                        $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price) VALUES ('$stock', '$productid', '$description', '$seller_id', '$price')";
+                        if (mysqli_query($conn, $sqladdStock)) {
+                            header("location: dashboard.php");
+                        }
                     }
                 }
                 exit();

@@ -35,7 +35,7 @@ function ajaxComponent() {
 
 const pricePattern = /^\d+(\.\d{2})?$/;
 const namePattern = /^[a-zA-Z]+[a-zA-Z\s]+$/;
-const descPattern = /^[a-zA-Z]+[a-zA-Z0-9\s]+$/;
+const descPattern = /^[a-zA-Z]+[a-zA-Z0-9\s.]+$/;
 
 function insert(event) {
   const element = event.target;
@@ -53,7 +53,7 @@ function insert(event) {
       pattern = descPattern;
       break;
     default:
-      exit();
+      break;
   }
   // create a new listener function
   element.inputListener = function () {
@@ -80,6 +80,7 @@ function selectProduct(event) {
     document.getElementById("optionalproductName").classList.remove("flex");
     document.getElementById("optionalCategory").classList.remove("flex");
     document.getElementById("optionalproductName").classList.add("hidden");
+    document.getElementById("medicineName").disabled = true;
     document.getElementById("optionalCategory").classList.add("hidden");
   }
 }
@@ -91,6 +92,7 @@ function selectCategory(event) {
       .classList.remove("hidden");
     document.getElementById("optionalproductCategory").classList.add("flex");
     document.getElementById("optionalCategory").classList.add("flex");
+    document.getElementById("medicineCategory").disabled = false;
   } else {
     document.getElementById("optionalproductCategory").classList.remove("flex");
     document.getElementById("optionalproductCategory").classList.add("hidden");
