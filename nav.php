@@ -12,7 +12,7 @@ define("BASE_URL", "http://localhost/medpoint"); ?>
         <?php
         
         if (isset($_SESSION["username"])) { ?>
-            <p class='mr-4'>HOWDEY,<span class="font-semibold" >
+            <p class='mr-4'>HOWDY,<span class="font-semibold" >
                <?php echo $_SESSION["username"]; ?>
                </span>
                 </p>
