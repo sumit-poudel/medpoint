@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $conn = new mysqli("localhost", "root", "", "medpoint");
 if (isset($_GET["number"])) {
     if (!isset($_SESSION["user_id"])) {

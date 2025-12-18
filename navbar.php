@@ -16,7 +16,7 @@
     <div class="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <?php
         if (isset($_SESSION["username"])) { ?>
-            <p class='mr-4'>HOWDEY,<span class="font-semibold" >
+            <p class='mr-4'>HOWDY,<span class="font-semibold" >
                <?php echo $_SESSION["username"]; ?>
                </span>
                 </p>
