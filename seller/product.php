@@ -11,22 +11,48 @@
             $price = $_POST["unit_price"];
             $description = $_POST["description"];
             $stock = $_POST["stock"];
-            $target_dir = "public/";
+            $target_dir = __DIR__ . "/assets/";
+            if ($_FILES["docs"]["error"] !== UPLOAD_ERR_OK) {
+                echo "upload error" . $_FILES["docs"]["error"];
+                exit();
+            }
+            $imageFileType = strtolower(
+                pathinfo($_FILES["docs"]["name"], PATHINFO_EXTENSION),
+            );
+
             if (
                 isset($_POST["medicineName"]) &&
                 isset($_POST["medicineCategory"])
             ) {
-                $category = $_POST["medicineCategory"];
                 $productName = $_POST["medicineName"];
+                $category = $_POST["medicineCategory"];
+                // inssert product to db
                 $sqladdCategory = "INSERT INTO categories (category) VALUES ('$category')";
                 if (mysqli_query($conn, $sqladdCategory)) {
                     $categoryid = mysqli_insert_id($conn);
                     $sqladdProduct = "INSERT INTO products (name, category_id) VALUES ('$productName', '$categoryid')";
                     if (mysqli_query($conn, $sqladdProduct)) {
                         $productid = mysqli_insert_id($conn);
-                        $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price) VALUES ('$stock', '$productid', '$description', '$seller_id', '$price')";
-                        if (mysqli_query($conn, $sqladdStock)) {
-                            header("location: dashboard.php");
+                        // move product image
+                        $filename =
+                            $seller_id .
+                            "_" .
+                            $productid .
+                            "." .
+                            $imageFileType;
+                        $target_file = $target_dir . $filename;
+                        if (
+                            move_uploaded_file(
+                                $_FILES["docs"]["tmp_name"],
+                                $target_file,
+                            )
+                        ) {
+                            $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price,image_url) VALUES ('$stock', '$productid', '$description', '$seller_id', '$price','seller/assets/$filename')";
+                            if (mysqli_query($conn, $sqladdStock)) {
+                                header("location: dashboard.php");
+                            }
+                        } else {
+                            http_response_code("500");
                         }
                     }
                 }
@@ -34,21 +60,51 @@
             } elseif (isset($_POST["medicineName"])) {
                 $categoryid = $_POST["productCategory"];
                 $productName = $_POST["medicineName"];
+
+                // inssert product to db
+
                 $sqladdProduct = "INSERT INTO products (name, category_id) VALUES ('$productName', $categoryid)";
                 if (mysqli_query($conn, $sqladdProduct)) {
                     $productid = mysqli_insert_id($conn);
-                    $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price) VALUES ($stock, $productid, '$description', $seller_id, $price)";
-                    if (mysqli_query($conn, $sqladdStock)) {
-                        header("location: dashboard.php");
+                    $filename =
+                        $seller_id . "_" . $productid . "." . $imageFileType;
+                    $target_file = $target_dir . $filename;
+                    if (
+                        move_uploaded_file(
+                            $_FILES["docs"]["tmp_name"],
+                            $target_file,
+                        )
+                    ) {
+                        $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price,image_url) VALUES ($stock, $productid, '$description', $seller_id, $price,'seller/assets/$filename')";
+                        if (mysqli_query($conn, $sqladdStock)) {
+                            header("location: dashboard.php");
+                        }
+                    } else {
+                        http_response_code("500");
                     }
                 }
                 exit();
             } else {
                 $productid = $_POST["productName"];
-                $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price) VALUES ($stock, $productid, '$description', $seller_id, $price)";
-                if (mysqli_query($conn, $sqladdStock)) {
-                    header("location: dashboard.php");
+                $filename =
+                    $seller_id . "_" . $productid . "." . $imageFileType;
+                $target_file = $target_dir . $filename;
+                // move file to directory
+                if (
+                    move_uploaded_file(
+                        $_FILES["docs"]["tmp_name"],
+                        $target_file,
+                    )
+                ) {
+                    // inssert product to db
+                    $sqladdStock = "INSERT INTO inventory (stock, product_id,description,seller_id,unit_price,image_url) VALUES ($stock, $productid, '$description', $seller_id, $price,'seller/assets/$filename')";
+                    if (mysqli_query($conn, $sqladdStock)) {
+                        header("location: dashboard.php");
+                    }
+                } else {
+                    http_response_code("500");
                 }
+
                 exit();
             }
             exit();
