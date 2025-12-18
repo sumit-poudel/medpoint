@@ -27,7 +27,7 @@ function ajaxComponent() {
   request.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       content.innerHTML = this.responseText;
-      content.style.maxHeight = "900px";
+      content.style.maxHeight = "90vh";
     }
   };
   request.send();

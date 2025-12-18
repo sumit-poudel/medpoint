@@ -40,7 +40,7 @@ include "header.php";
        </div>
    </div>
    <div id="item" class="fixed inset-0 justify-center items-center bg-black/40 hidden z-50">
-       <div id="item-content" class="max-w-[1200px] max-h-0 transition-all duration-700 ease-in-out overflow-hidden">
+       <div id="item-content" class="max-w-[1200px] max-h-0 transition-all duration-700 ease-in-out overflow-y-auto no-scrollbar ">
            <!-- AJAX content -->
        </div>
    </div>

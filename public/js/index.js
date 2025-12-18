@@ -50,7 +50,7 @@ const item = (sellerId, productId) => {
       content.innerHTML = this.responseText;
       if (!itemElement.isRendered) {
         itemElement.isRendered = true;
-        content.style.maxHeight = "900px";
+        content.style.maxHeight = "90vh";
       }
     }
   };
