@@ -19,7 +19,8 @@ if (isset($_SESSION["username"])) {
                     $sqlreduce = "
                     UPDATE inventory i
                     JOIN cart c ON i.inventory_id = c.inventory_id
-                    SET i.stock = i.stock - c.number
+                    SET i.stock = i.stock - c.number,
+                    i.sales = i.sales + c.number
                     WHERE c.user_id = $user_id
                     ";
                     mysqli_query($conn, $sqlreduce);
@@ -47,7 +48,7 @@ if (isset($_SESSION["username"])) {
                             SELECT $order_id, inventory.product_id,inventory.seller_id,$quantity from inventory
                             WHERE inventory.inventory_id = $inventory_id ";
                 if (mysqli_query($conn, $sqlorder)) {
-                    $sqlemptycart = "UPDATE inventory SET stock=stock-$quantity WHERE inventory_id=$inventory_id";
+                    $sqlemptycart = "UPDATE inventory SET stock=stock-$quantity, sales=sales+$quantity WHERE inventory_id=$inventory_id";
                     mysqli_query($conn, $sqlemptycart);
                     echo $row["stock"] - $quantity;
                 }

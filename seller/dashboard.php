@@ -18,7 +18,19 @@ $approval = $rowApproval["approval"];
 
 <?php include "../header.php"; ?>
 <body>
-  <?php include "../nav.php"; ?>
+  <?php
+  include "../nav.php";
+  $sql = "SELECT unit_price, sales,reg_id,shop_name FROM inventory JOIN seller ON inventory.seller_id = seller.seller_id WHERE seller.seller_id = $sellerid";
+  $result = mysqli_query($conn, $sql);
+  $totalSales = 0;
+  $totalNumberOfSales = 0;
+  while ($row = mysqli_fetch_assoc($result)) {
+      $totalSales += $row["unit_price"] * $row["sales"];
+      $totalNumberOfSales += $row["sales"];
+      $regid = $row["reg_id"];
+      $name = $row["shop_name"];
+  }
+  ?>
 
   <div class="w-full px-6" >
   <div class="flex mt-6 mx-auto max-w-[1200px] bg-white rounded-2xl shadow-lg flex-1  flex-col">
@@ -32,16 +44,20 @@ $approval = $rowApproval["approval"];
       </div>
 
       <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div class="flex flex-col gap-1.5 bg-[#333] rounded-xl py-6 px-6">
+        <div class="text-sm text-white">Reg NO:- <?php echo $regid; ?></div>
+        <div class="font-semibold text-white font-display text-2xl lg:text-3xl"><?php echo $name; ?></div>
+          </div>
         <div class="rounded-xl border border-bdr-ash py-6">
           <div class="flex flex-col gap-1.5 px-6">
             <div class="text-sm">Total Sales</div>
-            <div class="font-semibold font-display text-2xl lg:text-3xl">Rs. 0</div>
+            <div class="font-semibold font-display text-2xl lg:text-3xl">Rs. <?php echo $totalSales; ?></div>
           </div>
         </div>
         <div class="rounded-xl border border-bdr-ash py-6">
           <div class="flex flex-col gap-1.5 px-6">
             <div class="text-sm">Number of Sales</div>
-            <div class="font-semibold font-display text-2xl lg:text-3xl">Rs. 0</div>
+            <div class="font-semibold font-display text-2xl lg:text-3xl"><?php echo $totalNumberOfSales; ?></div>
           </div>
         </div>
       </div>
@@ -73,8 +89,14 @@ $approval = $rowApproval["approval"];
                           <?php echo $row["description"]; ?>
                       </div>
                       <div class="text-base font-semibold text-[#333]">
+                         <span>
                           Stock:
                           <?php echo $row["stock"]; ?>
+                         </span>
+                         <span class="ml-4" >
+                             Sales:
+                             <?php echo $row["sales"]; ?>
+                         </span>
                       </div>
                   </div>
                   <div class="flex flex-col items-end gap-3">
