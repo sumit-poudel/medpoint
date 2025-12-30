@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 30, 2025 at 10:18 AM
+-- Generation Time: Dec 30, 2025 at 06:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,13 +52,6 @@ CREATE TABLE `cart` (
   `number` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `user_id`, `inventory_id`, `number`) VALUES
-(64, 7, 23, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -79,8 +72,7 @@ INSERT INTO `categories` (`category_id`, `category`) VALUES
 (2, 'Antibiotics'),
 (3, 'Vitamins'),
 (4, 'Cough & Cold'),
-(5, 'Digestive'),
-(11, 'ok');
+(5, 'Digestive');
 
 -- --------------------------------------------------------
 
@@ -90,7 +82,8 @@ INSERT INTO `categories` (`category_id`, `category`) VALUES
 
 CREATE TABLE `inventory` (
   `inventory_id` int(11) NOT NULL,
-  `stock` int(11) NOT NULL,
+  `stock` int(11) NOT NULL DEFAULT 0,
+  `sales` int(11) NOT NULL DEFAULT 0,
   `product_id` int(11) NOT NULL,
   `image_url` varchar(255) NOT NULL DEFAULT 'public/medicine.svg',
   `description` text NOT NULL,
@@ -102,12 +95,13 @@ CREATE TABLE `inventory` (
 -- Dumping data for table `inventory`
 --
 
-INSERT INTO `inventory` (`inventory_id`, `stock`, `product_id`, `image_url`, `description`, `seller_id`, `unit_price`) VALUES
-(21, 300, 1, 'seller/assets/7_1.png', 'paracetamol can be used for fever and body pain as well. Use after doctors prescription.', 7, 40),
-(22, 41, 2, 'seller/assets/7_2.png', 'lubuprofen is ma drug.', 7, 23),
-(23, 632, 3, 'seller/assets/7_3.png', 'amoxiclline is a drug', 7, 54),
-(24, 200, 4, 'seller/assets/7_4.png', 'azithromycin is a drug', 7, 23),
-(25, 544, 5, 'seller/assets/7_5.png', 'vitamin c good for body', 7, 23);
+INSERT INTO `inventory` (`inventory_id`, `stock`, `sales`, `product_id`, `image_url`, `description`, `seller_id`, `unit_price`) VALUES
+(21, 300, 0, 1, 'seller/assets/7_1.png', 'paracetamol can be used for fever and body pain as well. Use after doctors prescription.', 7, 40),
+(22, 39, 2, 2, 'seller/assets/7_2.png', 'lubuprofen is ma drug.', 7, 23),
+(23, 627, 5, 3, 'seller/assets/7_3.png', 'amoxiclline is a drug', 7, 54),
+(24, 200, 0, 4, 'seller/assets/7_4.png', 'azithromycin is a drug', 7, 23),
+(25, 544, 0, 5, 'seller/assets/7_5.png', 'vitamin c good for body', 7, 23),
+(26, 14, 3, 6, 'seller/assets/7_6.png', 'vitamin d good for body', 7, 30);
 
 -- --------------------------------------------------------
 
@@ -120,14 +114,6 @@ CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `buyer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_date`, `order_id`, `buyer_id`) VALUES
-('2025-12-20 03:46:07', 71, 7),
-('2025-12-20 05:50:03', 72, 7);
 
 -- --------------------------------------------------------
 
@@ -142,14 +128,6 @@ CREATE TABLE `order_items` (
   `seller_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `seller_id`, `quantity`) VALUES
-(89, 71, 2, 7, 1),
-(90, 72, 3, 7, 64);
 
 -- --------------------------------------------------------
 
@@ -175,9 +153,7 @@ INSERT INTO `products` (`product_id`, `name`, `category_id`) VALUES
 (5, 'Vitamin C', 3),
 (6, 'Vitamin D', 3),
 (7, 'Cough Syrup', 4),
-(8, 'Antacid', 5),
-(14, 'cancer', 1),
-(15, 'ok', 11);
+(8, 'Antacid', 5);
 
 -- --------------------------------------------------------
 
@@ -315,7 +291,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -327,19 +303,19 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `products`
