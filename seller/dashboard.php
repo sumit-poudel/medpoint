@@ -44,18 +44,6 @@ $approval = $rowApproval["approval"];
             <div class="font-semibold font-display text-2xl lg:text-3xl">Rs. 0</div>
           </div>
         </div>
-        <div class="rounded-xl border border-bdr-ash py-6">
-          <div class="flex flex-col gap-1.5 px-6">
-            <div class="text-sm">Affiliate</div>
-            <div class="font-semibold font-display text-2xl lg:text-3xl">0</div>
-          </div>
-        </div>
-        <div class="rounded-xl border border-bdr-ash py-6">
-          <div class="flex flex-col gap-1.5 px-6">
-            <div class="text-sm">Discounts</div>
-            <div class="font-semibold font-display text-2xl lg:text-3xl">0</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

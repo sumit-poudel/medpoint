@@ -7,6 +7,19 @@ if (!isset($_SESSION["seller_id"])) {
     exit();
 }
 $seller_id = $_SESSION["seller_id"];
+if (isset($_GET["query"]) && $_GET["query"] === "updateItem") {
+    $id = $_GET["id"];
+    $description = $_POST["description"];
+    $unit_price = $_POST["unit_price"];
+    $stock = $_POST["stock"];
+    $sql = "UPDATE inventory SET description='$description', unit_price='$unit_price', stock='$stock' WHERE inventory_id='$id'";
+    if (mysqli_query($conn, $sql)) {
+        header("location: dashboard.php");
+    } else {
+        echo "Error updating product: " . mysqli_error($conn);
+    }
+    exit();
+}
 if (isset($_GET["query"]) && $_GET["query"] === "addItem") {
     $price = $_POST["unit_price"];
     $description = $_POST["description"];
@@ -93,13 +106,14 @@ if (isset($_GET["query"]) && $_GET["query"] === "addItem") {
 
 // html
 if (isset($_GET["query"]) && $_GET["query"] === "edit") {
+
     $id = $_GET["id"];
     $sql = "SELECT * FROM inventory JOIN products ON inventory.product_id = products.product_id where inventory_id = $id AND seller_id = $seller_id";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
-?>
+    ?>
     <div class='bg-white shadow-md rounded-2xl w-full'>
-        <form action="product.php?query=addItem" method="post" enctype="multipart/form-data">
+        <form action="product.php?query=updateItem&id=<?php echo $id; ?>" method="post">
             <div class="p-7 border-b border-[#eee] flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-[#333]">Edit a product</h1>
                 <div>
@@ -114,23 +128,31 @@ if (isset($_GET["query"]) && $_GET["query"] === "edit") {
                         <div class="flex mb-2 gap-5">
                             <div class="flex w-full flex-col">
                                 <label for="productName" class="font-base font-semibold mb-2 text-[#555]">Medicine name</label>
-                                <input name="productName" id="productName" disabled class="disabled:text-[#999] disabled:bg-[#f5f5f5] cursor-not-allowed outline-none py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] transition-all" value="<?php echo $row['name'] ?>" />
+                                <input name="productName" id="productName" disabled class="disabled:text-[#999] disabled:bg-[#f5f5f5] cursor-not-allowed outline-none py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] transition-all" value="<?php echo $row[
+                                    "name"
+                                ]; ?>" />
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-5">
                             <div class="flex flex-col">
                                 <label for="unit_price" class="font-base font-semibold mb-2 text-[#555]">Unit price</label>
-                                <input name="unit_price" onfocus="insert(event)" id="unit_price" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row['unit_price'] ?>" />
+                                <input name="unit_price" onfocus="insert(event)" id="unit_price" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                                    "unit_price"
+                                ]; ?>" />
                             </div>
                             <div class="flex flex-col">
                                 <label for="stock" class="font-base font-semibold mb-2 text-[#555]">Stock</label>
-                                <input name="stock" onfocus="insert(event)" id="stock" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row['stock'] ?>" />
+                                <input name="stock" onfocus="insert(event)" id="stock" type="text" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all" value="<?php echo $row[
+                                    "stock"
+                                ]; ?>" />
                             </div>
                         </div>
 
                         <div class="flex flex-col mb-5 ">
                             <label for="description" class="font-base font-semibold mb-2 text-[#555]">Description</label>
-                            <textarea name="description" onfocus="insert(event)" id="description" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all"><?php echo $row['description'] ?></textarea>
+                            <textarea name="description" onfocus="insert(event)" id="description" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all"><?php echo $row[
+                                "description"
+                            ]; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -146,7 +168,7 @@ if (isset($_GET["query"]) && $_GET["query"] === "add") {
         "SELECT name, product_id FROM products",
     );
     $categoryResult = mysqli_query($conn, "SELECT * FROM categories");
-?>
+    ?>
     <div class='bg-white shadow-md rounded-2xl w-full'>
         <form action="product.php?query=addItem" method="post" enctype="multipart/form-data">
             <div class="p-7 border-b border-[#eee] flex justify-between items-center">
@@ -165,10 +187,16 @@ if (isset($_GET["query"]) && $_GET["query"] === "add") {
                                 <label for="productName" class="font-base font-semibold mb-2 text-[#555]">Medicine name</label>
                                 <select name="productName" onchange="selectProduct(event)" id="productName" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
                                     <?php while (
-                                        $productrow = mysqli_fetch_assoc($productResult)
+                                        $productrow = mysqli_fetch_assoc(
+                                            $productResult,
+                                        )
                                     ) { ?>
-                                        <option value="<?php echo $productrow["product_id"]; ?>">
-                                            <?php echo $productrow["name"]; ?></option>
+                                        <option value="<?php echo $productrow[
+                                            "product_id"
+                                        ]; ?>">
+                                            <?php echo $productrow[
+                                                "name"
+                                            ]; ?></option>
                                     <?php } ?>
                                     <option value="0">None of the above</option>
                                 </select>
@@ -183,10 +211,16 @@ if (isset($_GET["query"]) && $_GET["query"] === "add") {
                                 <label for="productCategory" class="font-base font-semibold mb-2 text-[#555]">Category</label>
                                 <select name="productCategory" onchange="selectCategory(event)" id="productCategory" class="outline-none focus:border-[#00bfa5] hover:bg-white py-3 px-4 border-2 border-[#e0e0e0] rounded-lg text-[15px] bg-[#f9f9f9] transition-all">
                                     <?php while (
-                                        $categoryrow = mysqli_fetch_assoc($categoryResult)
+                                        $categoryrow = mysqli_fetch_assoc(
+                                            $categoryResult,
+                                        )
                                     ) { ?>
-                                        <option value="<?php echo $categoryrow["category_id"]; ?>">
-                                            <?php echo $categoryrow["category"]; ?></option>
+                                        <option value="<?php echo $categoryrow[
+                                            "category_id"
+                                        ]; ?>">
+                                            <?php echo $categoryrow[
+                                                "category"
+                                            ]; ?></option>
                                     <?php } ?>
                                     <option value="0">None of the above</option>
                                 </select>
