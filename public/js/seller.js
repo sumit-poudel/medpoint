@@ -6,10 +6,23 @@ itemcontainer.addEventListener("click", function (e) {
     closeModal();
   }
 });
-function openModal() {
+function openModal(button) {
+  const operation = button.dataset.operation;
+  let query;
+  switch (operation) {
+    case "add":
+      query = "product.php?query=add";
+      break;
+    case "edit":
+      let id = button.dataset.id;
+      query = "product.php?query=edit&id=" + id;
+      break;
+    default:
+      exit();
+  }
   itemcontainer.classList.remove("hidden");
   itemcontainer.classList.add("flex");
-  ajaxComponent();
+  ajaxComponent(query);
 }
 
 function closeModal() {
@@ -21,9 +34,9 @@ function closeModal() {
   }, 700);
 }
 
-function ajaxComponent() {
+function ajaxComponent(query) {
   let request = new XMLHttpRequest();
-  request.open("GET", "product.php");
+  request.open("GET", query);
   request.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
       content.innerHTML = this.responseText;

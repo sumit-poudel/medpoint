@@ -20,13 +20,13 @@ $approval = $rowApproval["approval"];
 <body>
   <?php include "../nav.php"; ?>
 
-  <div class="w-full" >
+  <div class="w-full px-6" >
   <div class="flex mt-6 mx-auto max-w-[1200px] bg-white rounded-2xl shadow-lg flex-1  flex-col">
     <div class="p-4 space-y-4">
       <div class="flex items-center justify-between space-y-2">
         <h1 class="text-2xl font-bold tracking-tight">sales</h1>
         <?php if ($approval == 1) { ?>
-        <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" onclick="openModal()" >
+        <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" data-operation="add" onclick="openModal(this)" >
           + Add Product</button>
         <?php } ?>
       </div>
@@ -60,7 +60,7 @@ $approval = $rowApproval["approval"];
     </div>
   </div>
 
-  <div class="flex mt-6 mx-auto max-w-[1200px] bg-white rounded-2xl shadow-lg flex-1  flex-col">
+  <div class="flex my-6 mx-auto max-w-[1200px] bg-white rounded-2xl shadow-lg flex-1  flex-col">
       <div class="p-4 space-y-4">
           <h1 class="text-2xl font-bold tracking-tight">Products</h1>
 
@@ -93,7 +93,9 @@ $approval = $rowApproval["approval"];
                       <div class="text-3xl font-bold text-[#00796b]">Rs. <?php echo $row[
                           "unit_price"
                       ]; ?></div>
-                      <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" onclick="openModal()" >
+                      <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" data-id="<?php echo $row[
+                          "inventory_id"
+                      ]; ?>" data-operation="edit" onclick="openModal(this)" >
                           Edit Product </button>
                   </div>
               </div>
