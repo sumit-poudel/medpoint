@@ -110,6 +110,10 @@ $approval = $rowApproval["approval"];
                   </div>
               </div>
           <?php }
+          } else {
+               ?>
+               <div>You arenot approved yet</div>
+              <?php
           } ?>
      </div>
   </div>
