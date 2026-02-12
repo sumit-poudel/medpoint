@@ -16,6 +16,16 @@ if (isset($_GET["id"]) && isset($_GET["action"])) {
             }
             break;
         case "reject":
+            $result = mysqli_query(
+                $conn,
+                "SELECT document_path FROM seller WHERE seller_id = $id",
+            );
+            $imgPath = mysqli_fetch_assoc($result)["document_path"];
+            $absolutePath = $_SERVER["DOCUMENT_ROOT"] . "/medpoint/" . $imgPath;
+            if (file_exists($absolutePath)) {
+                echo $absolutePath;
+                unlink($absolutePath);
+            }
             $sql = "DELETE FROM seller WHERE seller_id = $id";
             if (mysqli_query($conn, $sql)) {
                 http_response_code(200);

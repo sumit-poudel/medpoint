@@ -12,6 +12,12 @@ if (!isset($_SESSION["seller_id"])) {
 $sellerid = $_SESSION["seller_id"];
 $sqlApproval = "SELECT approval FROM seller WHERE seller_id = $sellerid";
 $resultApproval = mysqli_query($conn, $sqlApproval);
+if (mysqli_num_rows($resultApproval) == 0) {
+    unset($_SESSION["seller_id"]);
+    $_SESSION["level"] = 3;
+    echo "<script>window.location.href = '/medpoint/index.php';</script>";
+    exit();
+}
 $rowApproval = mysqli_fetch_assoc($resultApproval);
 $approval = $rowApproval["approval"];
 ?>
