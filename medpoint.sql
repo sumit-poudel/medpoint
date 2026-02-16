@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 30, 2025 at 06:31 PM
+-- Generation Time: Feb 16, 2026 at 06:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -163,7 +163,7 @@ INSERT INTO `products` (`product_id`, `name`, `category_id`) VALUES
 
 CREATE TABLE `seller` (
   `seller_id` int(11) NOT NULL,
-  `reg_id` text NOT NULL,
+  `reg_id` varchar(225) NOT NULL,
   `shop_name` text NOT NULL,
   `approval` tinyint(1) DEFAULT 0,
   `document_path` varchar(255) NOT NULL,
@@ -204,7 +204,8 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `gender`, `
 (7, 'sumitpdl', '637534835cb265c5e844f6d2e76a79b0', 'goku chan', 'male', '9829234343', 'basantachowk, bharatpur-18', 'bharatpur', 'bagmati'),
 (10, 'admin', '0e7517141fb53f21ee439b355b5a1d0a', 'admin kumar', 'prefer not to say', '9811111111', NULL, NULL, NULL),
 (11, 'seller', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9811111111', NULL, NULL, NULL),
-(12, 'seller2', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9823343343', NULL, NULL, NULL);
+(12, 'seller2', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9823343343', NULL, NULL, NULL),
+(13, 'test', '637534835cb265c5e844f6d2e76a79b0', 'test test', 'prefer not to say', '9811111111', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -267,7 +268,7 @@ ALTER TABLE `products`
 --
 ALTER TABLE `seller`
   ADD PRIMARY KEY (`seller_id`),
-  ADD UNIQUE KEY `reg_id` (`reg_id`) USING HASH,
+  ADD UNIQUE KEY `reg_id` (`reg_id`),
   ADD KEY `seller_fk5` (`user_id`);
 
 --
@@ -327,13 +328,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
