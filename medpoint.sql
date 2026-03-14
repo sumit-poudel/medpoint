@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2026 at 06:40 PM
+-- Generation Time: Mar 14, 2026 at 04:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,13 @@ CREATE TABLE `cart` (
   `number` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `user_id`, `inventory_id`, `number`) VALUES
+(70, 7, 29, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -96,12 +103,20 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`inventory_id`, `stock`, `sales`, `product_id`, `image_url`, `description`, `seller_id`, `unit_price`) VALUES
-(21, 300, 0, 1, 'seller/assets/7_1.png', 'paracetamol can be used for fever and body pain as well. Use after doctors prescription.', 7, 40),
 (22, 39, 2, 2, 'seller/assets/7_2.png', 'lubuprofen is ma drug.', 7, 23),
 (23, 627, 5, 3, 'seller/assets/7_3.png', 'amoxiclline is a drug', 7, 54),
 (24, 200, 0, 4, 'seller/assets/7_4.png', 'azithromycin is a drug', 7, 23),
-(25, 544, 0, 5, 'seller/assets/7_5.png', 'vitamin c good for body', 7, 23),
-(26, 14, 3, 6, 'seller/assets/7_6.png', 'vitamin d good for body', 7, 30);
+(25, 538, 3, 5, 'seller/assets/7_5.png', 'vitamin c good for body', 7, 23),
+(26, 10, 5, 6, 'seller/assets/7_6.png', 'vitamin d good for body', 7, 30),
+(28, 23, 0, 4, 'seller/assets/8_4.jpg', 'azithromycin is a medicine', 8, 45),
+(29, 75, 0, 1, 'seller/assets/8_1.png', 'For the fever', 8, 35),
+(31, 10, 0, 6, 'seller/assets/8_6.png', 'Vitamin D good for you', 8, 30),
+(32, 35, 0, 7, 'seller/assets/8_7.png', 'For the cough', 8, 34),
+(33, 64, 0, 8, 'seller/assets/8_8.png', 'Antacid is a good Medicine', 8, 34),
+(34, 34, 0, 5, 'seller/assets/8_5.png', 'Vitamin c is good', 8, 64),
+(35, 52, 0, 1, 'seller/assets/7_1.png', 'Paracetamol is for fever', 7, 34),
+(36, 52, 1, 2, 'seller/assets/8_2.png', 'Lbuprofen is a med', 8, 43),
+(37, 234, 0, 16, 'seller/assets/8_16.png', 'Vitamin E is good.', 8, 53);
 
 -- --------------------------------------------------------
 
@@ -114,6 +129,14 @@ CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `buyer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_date`, `order_id`, `buyer_id`) VALUES
+('2026-02-17 16:52:53', 76, 7),
+('2026-03-14 15:56:02', 77, 7);
 
 -- --------------------------------------------------------
 
@@ -128,6 +151,15 @@ CREATE TABLE `order_items` (
   `seller_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `seller_id`, `quantity`) VALUES
+(95, 76, 5, 7, 3),
+(96, 76, 6, 7, 2),
+(97, 77, 2, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -153,7 +185,8 @@ INSERT INTO `products` (`product_id`, `name`, `category_id`) VALUES
 (5, 'Vitamin C', 3),
 (6, 'Vitamin D', 3),
 (7, 'Cough Syrup', 4),
-(8, 'Antacid', 5);
+(8, 'Antacid', 5),
+(16, 'Vitamin E', 3);
 
 -- --------------------------------------------------------
 
@@ -176,7 +209,7 @@ CREATE TABLE `seller` (
 
 INSERT INTO `seller` (`seller_id`, `reg_id`, `shop_name`, `approval`, `document_path`, `user_id`) VALUES
 (7, '98292345', 'shop1', 1, 'documents/shop1_regDoc.png', 11),
-(8, '98452', 'shop2', 0, 'documents/shop2_regDoc.png', 12);
+(8, '98452', 'shop2', 1, 'documents/shop2_regDoc.png', 12);
 
 -- --------------------------------------------------------
 
@@ -204,8 +237,7 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `gender`, `
 (7, 'sumitpdl', '637534835cb265c5e844f6d2e76a79b0', 'goku chan', 'male', '9829234343', 'basantachowk, bharatpur-18', 'bharatpur', 'bagmati'),
 (10, 'admin', '0e7517141fb53f21ee439b355b5a1d0a', 'admin kumar', 'prefer not to say', '9811111111', NULL, NULL, NULL),
 (11, 'seller', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9811111111', NULL, NULL, NULL),
-(12, 'seller2', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9823343343', NULL, NULL, NULL),
-(13, 'test', '637534835cb265c5e844f6d2e76a79b0', 'test test', 'prefer not to say', '9811111111', NULL, NULL, NULL);
+(12, 'seller2', '4a9980831f3ee5ebce8f2c57e78f620c', 'seller kumar', 'prefer not to say', '9823343343', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -292,7 +324,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -304,31 +336,31 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `inventory_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `seller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`

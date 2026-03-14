@@ -183,7 +183,7 @@ if (isset($_GET["query"]) && $_GET["query"] === "add") {
 
     $productResult = mysqli_query(
         $conn,
-        "SELECT name, product_id FROM products",
+        "SELECT name, product_id FROM products WHERE product_id NOT IN (SELECT product_id FROM inventory WHERE seller_id = $seller_id)",
     );
     $categoryResult = mysqli_query($conn, "SELECT * FROM categories");
     ?>
