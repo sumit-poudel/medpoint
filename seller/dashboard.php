@@ -77,13 +77,22 @@ $approval = $rowApproval["approval"];
           <?php if ($approval == 1) {
               $sql = "SELECT * from inventory i INNER JOIN products p ON i.product_id = p.product_id WHERE seller_id = $sellerid";
               $result = mysqli_query($conn, $sql);
-              while ($row = mysqli_fetch_assoc($result)) { ?>
+              while ($row = mysqli_fetch_assoc($result)) { 
+                $inventory_id = $row["inventory_id"];
+                $product_id = $row["product_id"];
+                
+                $cartCheck = mysqli_query($conn, "SELECT cart_id FROM cart WHERE inventory_id = $inventory_id");
+                $inCart = mysqli_num_rows($cartCheck) > 0;
+                
+                $orderCheck = mysqli_query($conn, "SELECT order_item_id FROM order_items WHERE product_id = $product_id AND seller_id = $sellerid");
+                $hasOrders = mysqli_num_rows($orderCheck) > 0;
+                
+                $canDelete = !$inCart && !$hasOrders;
+                ?>
                 <div class="grid grid-cols-[100px_1fr_auto] gap-5 border-2 hover:-translate-y-1 duration-500 border-[#eee] p-6 rounded-xl transition-all hover:border-[#00bfa5] hover:shadow-lg">
                   <div onclick="openModal(<?php echo $row["seller_id"]; ?>)"
                       class="w-24 h-24 bg-[#f5f5f5] rounded-lg flex items-center justify-center p-5">
-                      <img class="aspect-square h-14" src="<?php echo BASE_URL .
-                          "/" .
-                          $row["image_url"]; ?>"/>
+                      <img class="aspect-square h-14" src="<?php echo BASE_URL . "/" . $row["image_url"]; ?>"/>
                   </div>
                   <div class="flex-1 flex flex-col gap-2">
                       <div class="font-semibold text-xl color-[#333]">
@@ -103,24 +112,31 @@ $approval = $rowApproval["approval"];
                              Sales:
                              <?php echo $row["sales"]; ?>
                          </span>
+                         <?php if (!$canDelete) { ?>
+                         <span class="ml-4 text-red-500 text-sm">
+                             <?php echo $inCart ? "In cart" : ""; ?>
+                             <?php echo $hasOrders ? ($inCart ? " | " : "") . "Has orders" : ""; ?>
+                         </span>
+                         <?php } ?>
                       </div>
                   </div>
                   <div class="flex flex-col items-end gap-3">
-                      <div class="text-3xl font-bold text-[#00796b]">Rs. <?php echo $row[
-                          "unit_price"
-                      ]; ?></div>
-                      <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" data-id="<?php echo $row[
-                          "inventory_id"
-                      ]; ?>" data-operation="edit" onclick="openModal(this)" >
-                          Edit Product </button>
+                      <div class="text-3xl font-bold text-[#00796b]">Rs. <?php echo $row["unit_price"]; ?></div>
+                      <div class="flex gap-2">
+                          <button class="font-semibold p-2 rounded-md <?php echo $canDelete ? "bg-red-500 cursor-pointer" : "bg-gray-400 cursor-not-allowed"; ?> text-white" 
+                                  data-id="<?php echo $row["inventory_id"]; ?>" 
+                                  data-operation="delete" 
+                                  <?php echo !$canDelete ? "disabled" : "onclick=\"openModal(this)\""; ?> >
+                              Delete </button>
+                          <button class="font-semibold p-2 bg-[#00bfa5] text-white rounded-md" data-id="<?php echo $row["inventory_id"]; ?>" data-operation="edit" onclick="openModal(this)" >
+                              Edit Product </button>
+                      </div>
                   </div>
               </div>
           <?php }
-          } else {
-               ?>
-               <div>You arenot approved yet</div>
-              <?php
-          } ?>
+          } else { ?>
+                <div>You arenot approved yet</div>
+          <?php } ?>
      </div>
   </div>
   <!--ajax part-->

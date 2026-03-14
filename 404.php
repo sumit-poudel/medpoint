@@ -1,4 +1,4 @@
-<?php include 'header.php' ?>
+<?php include "header.php"; ?>
 
 <body>
     <header class=" w-full py-2 flex items-center justify-around border-b-bdr-ash border-b-2 ">

@@ -7,15 +7,12 @@
     </a>
 
     <div class="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <?php
-        
-        if (isset($_SESSION["username"])) { ?>
+        <?php if (isset($_SESSION["username"])) { ?>
             <p class='mr-4'>HOWDY,<span class="font-semibold" >
                <?php echo $_SESSION["username"]; ?>
                </span>
                 </p>
-        <?php }
-        ?>
+        <?php } ?>
       <button type="button" class="text-white bg-[#00bfa5] rounded-full p-1 hover:bg-white hover:text-[#00bfa5]" id="user-menu-button" aria-expanded="false">
           <svg class="h-8 w-8 stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -25,14 +22,11 @@
       <div class="z-50 hidden min-w-32 text-start absolute top-5 right-0  my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
         <div class="px-4 py-3">
           <span class="block text-sm text-gray-900 dark:text-white">
-            <?php
-            
-            if (isset($_SESSION["username"])) {
+            <?php if (isset($_SESSION["username"])) {
                 echo $_SESSION["username"];
             } else {
                 echo "Guest";
-            }
-            ?>
+            } ?>
           </span>
           <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
             <?php if (isset($_SESSION["fullname"])) {

@@ -17,6 +17,16 @@ function openModal(button) {
       let id = button.dataset.id;
       query = "product.php?query=edit&id=" + id;
       break;
+    case "delete":
+      let deleteId = button.dataset.id;
+      if (confirm("Are you sure you want to delete this product?")) {
+        query = "product.php?query=delete&id=" + deleteId;
+        ajaxComponent(query);
+        setTimeout(() => {
+          window.location.href = "dashboard.php";
+        }, 500);
+      }
+      return;
     default:
       exit();
   }

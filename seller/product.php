@@ -104,6 +104,24 @@ if (isset($_GET["query"]) && $_GET["query"] === "addItem") {
     exit();
 }
 
+// delete product
+if (isset($_GET["query"]) && $_GET["query"] === "delete") {
+    $id = $_GET["id"];
+    
+    // First delete from cart (references inventory_id)
+    $sqlDeleteCart = "DELETE FROM cart WHERE inventory_id = $id";
+    mysqli_query($conn, $sqlDeleteCart);
+    
+    // Delete from inventory
+    $sqlDeleteInventory = "DELETE FROM inventory WHERE inventory_id = $id AND seller_id = $seller_id";
+    if (mysqli_query($conn, $sqlDeleteInventory)) {
+        echo "Product deleted successfully";
+    } else {
+        echo "Error deleting product: " . mysqli_error($conn);
+    }
+    exit();
+}
+
 // html
 if (isset($_GET["query"]) && $_GET["query"] === "edit") {
 
